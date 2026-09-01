@@ -59,8 +59,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 20px;
-            perspective: 2000px;
+            padding: 20px;
         }
 
         .global-header {
@@ -68,10 +67,10 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 1750px;
-            margin-bottom: 25px;
+            max-width: 100%;
+            margin-bottom: 15px;
             background: var(--terminal-bg);
-            padding: 18px 30px;
+            padding: 15px 25px;
             border-radius: 12px;
             border: 1px solid var(--border-color);
             backdrop-filter: blur(20px);
@@ -84,7 +83,7 @@
 
         .global-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             letter-spacing: 2px;
             color: var(--title-color);
@@ -101,7 +100,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #10b981;
             letter-spacing: 0.5px;
             font-weight: 600;
@@ -125,11 +124,11 @@
             background: rgba(0, 243, 255, 0.1);
             border: 1px solid var(--border-color);
             color: var(--title-color);
-            padding: 9px 16px;
+            padding: 8px 14px;
             border-radius: 8px;
             cursor: pointer;
             font-family: 'Lexend', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 600;
             display: flex;
             align-items: center;
@@ -143,21 +142,17 @@
 
         .dashboards-container {
             display: flex;
-            gap: 30px;
+            gap: 20px;
             width: 100%;
-            max-width: 1750px;
             justify-content: center;
-            flex-wrap: wrap;
             align-items: flex-start;
         }
 
         .holo-stage {
             flex: 1;
-            min-width: 580px;
-            transform: rotateX(1.5deg);
-            transform-style: preserve-3d;
-            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.45),
-                        0 0 35px rgba(0, 243, 255, 0.08);
+            min-width: 0; /* Permite que los paneles se reduzcan de tamaño de forma fluida */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4),
+                        0 0 25px rgba(0, 243, 255, 0.06);
             border-radius: 14px;
             padding: 3px;
             background: linear-gradient(135deg, rgba(0, 243, 255, 0.4), rgba(139, 92, 246, 0.4), rgba(16, 185, 129, 0.4));
@@ -167,7 +162,7 @@
             background: var(--terminal-bg);
             backdrop-filter: blur(20px);
             border-radius: 12px;
-            overflow: visible; /* Evita recortes y barras forzadas */
+            overflow: hidden;
             border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
@@ -175,7 +170,7 @@
 
         .terminal-header-panel {
             background: var(--header-bg);
-            padding: 16px 22px;
+            padding: 12px 18px;
             border-bottom: 2px solid var(--border-color);
             display: flex;
             justify-content: space-between;
@@ -184,14 +179,14 @@
 
         .panel-title-text {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             color: var(--title-color);
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
         }
 
         .panel-update-time {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-main);
             opacity: 0.75;
             font-weight: 400;
@@ -199,19 +194,19 @@
 
         .table-responsive {
             width: 100%;
-            overflow: visible; /* Elimina cualquier rastro de barras internas */
+            overflow: visible;
         }
 
         table {
             border-collapse: collapse;
             width: 100%;
             text-align: left;
-            font-size: 0.92rem; /* Ligeramente más compacto para que el ancho encaje perfecto sin desbordar */
+            font-size: 0.85rem; /* Tamaño optimizado para encajar perfectamente */
             table-layout: auto;
         }
 
         th, td {
-            padding: 11px 14px; /* Ajuste óptimo para ver todo sin generar barras */
+            padding: 9px 12px; /* Celdas compactas sin perder legibilidad */
             border-bottom: 1px solid var(--border-line);
             border-right: 1px solid var(--border-line);
         }
@@ -220,7 +215,7 @@
             background: var(--th-bg);
             color: var(--th-color);
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             letter-spacing: 0.5px;
             text-align: center;
         }
@@ -642,7 +637,7 @@
                                 <td class="heat-green">ÓPTIMO</td>
                             </tr>
                             <tr>
-                                <td>PÉREZ RIVERA SOL ANGEL</td>
+                        <td>PÉREZ RIVERA SOL ANGEL</td>
                                 <td>7</td>
                                 <td>1</td>
                                 <td>2</td>
