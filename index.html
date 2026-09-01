@@ -123,7 +123,8 @@
     </div>
 
     <script>
-        const API_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://api.sheetbest.com/sheets/1f57e554-8744-418a-b037-d1d744b36008");
+        // PEGA AQUÍ TU URL DE API DE SHEETDB
+        const API_URL = "https://sheetdb.io/api/v1/bop8vqmouwjlx";
 
         function cargarDatosKPI() {
             fetch(API_URL)
@@ -141,7 +142,6 @@
                     }
 
                     data.forEach(fila => {
-                        // Filtramos para ignorar filas vacías o de totales generales si es necesario
                         const agente = fila['AGENTE'];
                         if (!agente || agente.trim() === "" || agente.includes("Total general")) return;
 
@@ -156,6 +156,7 @@
                         tbody.appendChild(tr);
                     });
 
+                    // Registra la hora exacta en la que se descargaron los datos nuevos
                     const ahora = new Date();
                     const horaFormateada = ahora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                     document.getElementById('horaActualizacion').textContent = horaFormateada;
@@ -166,6 +167,7 @@
                 });
         }
 
+        // Carga al iniciar y se actualiza automáticamente cada 60 segundos sin necesidad de F5
         window.onload = function() {
             cargarDatosKPI();
             setInterval(cargarDatosKPI, 60000);
