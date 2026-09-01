@@ -2,25 +2,59 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Televentas</title>
+    <title>HoloTable 3D - Televentas</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
+
+        :root {
+            --bg-main: #02040a;
+            --bg-gradient: radial-gradient(circle at 50% 15%, #0a1128 0%, #02040a 100%),
+                           linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
+                           linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
+            --text-main: #cbf3f9;
+            --terminal-bg: rgba(5, 9, 20, 0.95);
+            --border-color: rgba(0, 243, 255, 0.35);
+            --header-bg: linear-gradient(90deg, rgba(10, 18, 38, 0.98), rgba(20, 30, 55, 0.98));
+            --title-color: #00f3ff;
+            --th-bg: linear-gradient(180deg, #132238 0%, #091122 100%);
+            --th-color: #00f3ff;
+            --row-text: #ffffff;
+            --border-line: rgba(0, 243, 255, 0.08);
+            --hover-bg: rgba(0, 243, 255, 0.04);
+            --special-row: rgba(0, 243, 255, 0.15);
+        }
+
+        .light-mode {
+            --bg-main: #f0f4f8;
+            --bg-gradient: radial-gradient(circle at 50% 15%, #e2e8f0 0%, #cbd5e1 100%),
+                           linear-gradient(rgba(0, 102, 204, 0.03) 1px, transparent 1px),
+                           linear-gradient(90deg, rgba(0, 102, 204, 0.03) 1px, transparent 1px);
+            --text-main: #1e293b;
+            --terminal-bg: rgba(255, 255, 255, 0.95);
+            --border-color: rgba(0, 102, 204, 0.3);
+            --header-bg: linear-gradient(90deg, rgba(226, 232, 240, 0.98), rgba(203, 213, 225, 0.98));
+            --title-color: #0284c7;
+            --th-bg: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+            --th-color: #0369a1;
+            --row-text: #0f172a;
+            --border-line: rgba(0, 102, 204, 0.12);
+            --hover-bg: rgba(0, 102, 204, 0.06);
+            --special-row: rgba(0, 149, 255, 0.12);
+        }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         body {
-            background-color: #02040a;
-            background-image: 
-                radial-gradient(circle at 50% 15%, #0a1128 0%, #02040a 100%),
-                linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
+            background-color: var(--bg-main);
+            background-image: var(--bg-gradient);
             background-size: 100% 100%, 40px 40px, 40px 40px;
             font-family: 'Lexend', sans-serif;
-            color: #cbf3f9;
+            color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -32,31 +66,38 @@
         }
 
         .holo-stage {
-            transform: rotateX(6deg) rotateY(-1deg);
+            transform: rotateX(4deg) rotateY(-0.5deg);
             transform-style: preserve-3d;
-            box-shadow: 0 40px 90px rgba(0, 0, 0, 0.9),
-                        0 0 50px rgba(0, 243, 255, 0.12),
-                        inset 0 0 30px rgba(0, 243, 255, 0.05);
+            box-shadow: 0 40px 90px rgba(0, 0, 0, 0.4),
+                        0 0 40px rgba(0, 243, 255, 0.08),
+                        inset 0 0 30px rgba(0, 243, 255, 0.03);
             border-radius: 12px;
             padding: 3px;
-            background: linear-gradient(135deg, rgba(0, 243, 255, 0.5), rgba(139, 92, 246, 0.5), rgba(16, 185, 129, 0.5));
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.4), rgba(139, 92, 246, 0.4), rgba(16, 185, 129, 0.4));
         }
 
         .holo-terminal {
-            background: rgba(5, 9, 20, 0.95);
+            background: var(--terminal-bg);
             backdrop-filter: blur(20px);
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid rgba(0, 243, 255, 0.35);
+            border: 1px solid var(--border-color);
         }
 
         .terminal-header {
-            background: linear-gradient(90deg, rgba(10, 18, 38, 0.98), rgba(20, 30, 55, 0.98));
+            background: var(--header-bg);
             padding: 14px 20px;
-            border-bottom: 2px solid rgba(0, 243, 255, 0.4);
+            border-bottom: 2px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .terminal-title-container {
+            display: flex;
+            flex-direction: column;
         }
 
         .terminal-title {
@@ -64,14 +105,27 @@
             font-size: 1.1rem;
             font-weight: 700;
             letter-spacing: 2px;
-            color: #00f3ff;
-            text-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+            color: var(--title-color);
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
+        }
+
+        .update-time {
+            font-size: 0.75rem;
+            color: var(--text-main);
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .controls-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
         .status-indicators {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             font-size: 0.85rem;
             color: #10b981;
             letter-spacing: 0.5px;
@@ -91,6 +145,27 @@
             50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px #10b981; }
         }
 
+        .theme-toggle-btn {
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--title-color);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Lexend', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+        }
+
+        .theme-toggle-btn:hover {
+            background: rgba(0, 243, 255, 0.25);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
@@ -101,18 +176,17 @@
 
         th, td {
             padding: 10px 14px;
-            border-bottom: 1px solid rgba(0, 243, 255, 0.08);
-            border-right: 1px solid rgba(0, 243, 255, 0.05);
+            border-bottom: 1px solid var(--border-line);
+            border-right: 1px solid var(--border-line);
         }
 
         th {
-            background: linear-gradient(180deg, #132238 0%, #091122 100%);
-            color: #00f3ff;
+            background: var(--th-bg);
+            color: var(--th-color);
             font-family: 'Orbitron', sans-serif;
             font-size: 0.75rem;
             letter-spacing: 1px;
             text-align: center;
-            text-shadow: 0 0 6px rgba(0, 243, 255, 0.5);
             position: sticky;
             top: 0;
             z-index: 10;
@@ -121,21 +195,23 @@
         th:first-child, td:first-child {
             text-align: left;
             font-weight: 600;
-            color: #ffffff;
+            color: var(--row-text);
+        }
+
+        td {
+            color: var(--text-main);
         }
 
         tr:first-child th, tr:first-child td, tr:last-child td {
-            background: rgba(0, 243, 255, 0.15) !important;
-            color: #00f3ff !important;
+            background: var(--special-row) !important;
+            color: var(--title-color) !important;
             font-weight: 700;
-            border-top: 1px solid rgba(0, 243, 255, 0.4);
-            border-bottom: 1px solid rgba(0, 243, 255, 0.4);
-            text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
         }
 
         tr:hover td {
-            background-color: rgba(0, 243, 255, 0.04);
-            box-shadow: inset 0 0 12px rgba(0, 243, 255, 0.1);
+            background-color: var(--hover-bg);
             transition: background 0.15s ease;
         }
 
@@ -145,30 +221,32 @@
         }
 
         .heat-green {
-            background: rgba(16, 185, 129, 0.28) !important;
-            color: #34d399 !important;
+            background: rgba(16, 185, 129, 0.22) !important;
+            color: #059669 !important;
             font-weight: 700;
-            text-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
         }
+        .light-mode .heat-green { color: #047857 !important; background: rgba(16, 185, 129, 0.18) !important; }
 
         .heat-red {
-            background: rgba(239, 68, 68, 0.28) !important;
-            color: #f87171 !important;
+            background: rgba(239, 68, 68, 0.22) !important;
+            color: #dc2626 !important;
             font-weight: 700;
-            text-shadow: 0 0 6px rgba(248, 113, 113, 0.5);
         }
+        .light-mode .heat-red { color: #b91c1c !important; background: rgba(239, 68, 68, 0.18) !important; }
 
         .heat-yellow {
-            background: rgba(234, 179, 8, 0.22) !important;
-            color: #facc15 !important;
+            background: rgba(234, 179, 8, 0.18) !important;
+            color: #ca8a04 !important;
             font-weight: 600;
         }
+        .light-mode .heat-yellow { color: #a16207 !important; background: rgba(234, 179, 8, 0.18) !important; }
 
         .heat-orange {
-            background: rgba(249, 115, 22, 0.22) !important;
-            color: #fb923c !important;
+            background: rgba(249, 115, 22, 0.18) !important;
+            color: #ea580c !important;
             font-weight: 600;
         }
+        .light-mode .heat-orange { color: #c2410c !important; background: rgba(249, 115, 22, 0.18) !important; }
     </style>
 </head>
 <body>
@@ -176,10 +254,18 @@
     <div class="holo-stage">
         <div class="holo-terminal">
             <div class="terminal-header">
-                <div class="terminal-title">TABLEU AGOSTO</div>
-                <div class="status-indicators">
-                    <div class="blink-core"></div>
-                    Raúl Eulogio
+                <div class="terminal-title-container">
+                    <div class="terminal-title">TABLEU AGOSTO</div>
+                    <div class="update-time" id="updateTimestamp">Sincronizando última hora...</div>
+                </div>
+                <div class="controls-group">
+                    <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">
+                        ☀️ Modo Claro
+                    </button>
+                    <div class="status-indicators">
+                        <div class="blink-core"></div>
+                        Raúl Eulogio
+                    </div>
                 </div>
             </div>
             <table>
@@ -398,5 +484,25 @@
         </div>
     </div>
 
+    <script>
+        // Mostrar hora de actualización automática en tiempo real
+        const now = new Date();
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+        document.getElementById('updateTimestamp').innerText = 'Última actualización: ' + now.toLocaleDateString('es-PE', options);
+
+        // Función para cambiar entre Modo Oscuro y Modo Claro
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('themeBtn');
+            
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                btn.innerHTML = '🌙 Modo Oscuro';
+            } else {
+                btn.innerHTML = '☀️ Modo Claro';
+            }
+        }
+    </script>
 </body>
 </html>
