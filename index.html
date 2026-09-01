@@ -67,7 +67,6 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 1400px;
             margin-bottom: 15px;
             background: var(--terminal-bg);
             padding: 15px 25px;
@@ -134,26 +133,27 @@
             box-shadow: 0 0 18px rgba(0, 243, 255, 0.3);
         }
 
-        .dashboards-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            width: 100%;
-        }
+        .dashboard-container, body > .main-wrapper {
+         max-width: 1400px; /* O el ancho exacto que estén usando tus tablas de arriba */
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra todo perfectamente */
+       }
 
-        .dashboards-row {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            width: 100%;
-        }
+.dashboards-row, 
+.dashboards-row.single, 
+.dashboards-row.double {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
 
         .holo-stage {
-            width: 100%;
+            flex: 1;
+            min-width: 0;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 243, 255, 0.06);
             border-radius: 14px;
             padding: 3px;
@@ -282,7 +282,7 @@
 
     <div class="dashboards-container">
 
-        <!-- Contenedor general en formato vertical (una tabla debajo de otra) -->
+        <!-- Fila Superior con las 2 tablas originales -->
         <div class="dashboards-row">
             
             <!-- Tabla 1: TABLEU AGOSTO -->
@@ -681,9 +681,11 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- Tabla 3: CONTROL DE MULTIPEDIDO -->
-            <div class="holo-stage">
+        <!-- Fila Inferior con la Tercera Tabla: MULTIPEDIDO -->
+        <div class="dashboards-row single">
+            <div class="holo-stage" style="flex: 1; width: 100%;">
                 <div class="holo-terminal">
                     <div class="terminal-header-panel">
                         <span class="panel-title-text">📦 CONTROL DE MULTIPEDIDO</span>
@@ -853,7 +855,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
     </div>
@@ -876,6 +877,7 @@
             // 1. Aplicar a Tabla Tableu (Columna 7: % TABLEU - índice 6)
             const filasTableu = document.querySelectorAll('#tablaTableu tbody tr');
             filasTableu.forEach((fila, index) => {
+                // Omitir la última fila si es el Total general
                 if (index === filasTableu.length - 1) return;
                 
                 const celda = fila.cells[6];
@@ -883,7 +885,7 @@
                 
                 let valor = parseFloat(celda.innerText.replace('%', '').replace(',', '.').trim());
                 if (!isNaN(valor)) {
-                    celda.className = '';
+                    celda.className = ''; // Limpiar clases previas
                     if (valor >= 82) {
                         celda.classList.add('heat-green');
                     } else if (valor >= 75) {
@@ -924,7 +926,7 @@
             filasMultipedido.forEach((fila, index) => {
                 if (index === filasMultipedido.length - 1) return;
                 
-                const celda = celda = fila.cells[4];
+                const celda = fila.cells[4];
                 if (!celda) return;
                 
                 let valor = parseFloat(celda.innerText.replace('%', '').replace(',', '.').trim());
