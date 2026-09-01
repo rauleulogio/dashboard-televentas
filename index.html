@@ -133,22 +133,15 @@
             box-shadow: 0 0 18px rgba(0, 243, 255, 0.3);
         }
 
-        /* MODIFICACIÓN CLAVE: Se usa minmax responsivo más amplio para que al hacer zoom bajen a una sola columna */
+        /* MODIFICACIÓN: Se fuerza una sola columna (una tabla debajo de otra) para evitar desplazamiento lateral y barras */
         .dashboards-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 25px;
             width: 100%;
-            max-width: 1600px;
+            max-width: 1400px;
             justify-content: center;
             align-items: flex-start;
-        }
-
-        /* Si la pantalla se reduce o el zoom aumenta demasiado, fuerza una sola columna */
-        @media (max-width: 1050px) {
-            .dashboards-container {
-                grid-template-columns: 1fr;
-            }
         }
 
         .holo-stage {
