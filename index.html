@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>HoloTable 3D - Televentas Dual Panel</title>
+    <title>Televentas - KPI</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
 
@@ -59,7 +59,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 15px;
+            padding: 30px 20px;
             perspective: 2000px;
             overflow-x: auto;
         }
@@ -69,11 +69,11 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 1400px;
+            max-width: 1750px;
             margin-bottom: 25px;
             background: var(--terminal-bg);
-            padding: 15px 25px;
-            border-radius: 10px;
+            padding: 18px 30px;
+            border-radius: 12px;
             border: 1px solid var(--border-color);
             backdrop-filter: blur(20px);
         }
@@ -85,7 +85,7 @@
 
         .global-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
             letter-spacing: 2px;
             color: var(--title-color);
@@ -93,78 +93,79 @@
         }
 
         .update-time {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             color: var(--text-main);
             opacity: 0.7;
-            margin-top: 3px;
+            margin-top: 4px;
         }
 
         .controls-group {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .status-indicators {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
+            gap: 10px;
+            font-size: 0.95rem;
             color: #10b981;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
         .blink-core {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             background-color: #10b981;
             border-radius: 50%;
-            box-shadow: 0 0 10px #10b981;
+            box-shadow: 0 0 12px #10b981;
             animation: blink 1.2s infinite;
         }
 
         @keyframes blink {
             0%, 100% { opacity: 0.3; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px #10b981; }
+            50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 18px #10b981; }
         }
 
         .theme-toggle-btn {
             background: rgba(0, 243, 255, 0.1);
             border: 1px solid var(--border-color);
             color: var(--title-color);
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 9px 16px;
+            border-radius: 8px;
             cursor: pointer;
             font-family: 'Lexend', sans-serif;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .theme-toggle-btn:hover {
             background: rgba(0, 243, 255, 0.25);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+            box-shadow: 0 0 18px rgba(0, 243, 255, 0.3);
         }
 
         .dashboards-container {
             display: flex;
             gap: 30px;
             width: 100%;
-            max-width: 1400px;
+            max-width: 1750px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
         .holo-stage {
             flex: 1;
-            min-width: 450px;
-            transform: rotateX(2deg);
+            min-width: 580px;
+            transform: rotateX(1.5deg);
             transform-style: preserve-3d;
-            box-shadow: 0 30px 70px rgba(0, 0, 0, 0.4),
-                        0 0 30px rgba(0, 243, 255, 0.06);
-            border-radius: 12px;
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.45),
+                        0 0 35px rgba(0, 243, 255, 0.08);
+            border-radius: 14px;
             padding: 3px;
             background: linear-gradient(135deg, rgba(0, 243, 255, 0.4), rgba(139, 92, 246, 0.4), rgba(16, 185, 129, 0.4));
         }
@@ -172,40 +173,40 @@
         .holo-terminal {
             background: var(--terminal-bg);
             backdrop-filter: blur(20px);
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-color);
-            max-height: 650px;
+            max-height: 800px;
             display: flex;
             flex-direction: column;
         }
 
         .terminal-header-panel {
             background: var(--header-bg);
-            padding: 12px 18px;
+            padding: 16px 22px;
             border-bottom: 2px solid var(--border-color);
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--title-color);
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .table-responsive {
             overflow-y: auto;
-            max-height: 550px;
+            max-height: 700px;
         }
 
         table {
             border-collapse: collapse;
             width: 100%;
             text-align: left;
-            font-size: 0.85rem;
+            font-size: 1rem;
             white-space: nowrap;
         }
 
         th, td {
-            padding: 9px 12px;
+            padding: 13px 18px;
             border-bottom: 1px solid var(--border-line);
             border-right: 1px solid var(--border-line);
         }
@@ -214,7 +215,7 @@
             background: var(--th-bg);
             color: var(--th-color);
             font-family: 'Orbitron', sans-serif;
-            font-size: 0.7rem;
+            font-size: 0.82rem;
             letter-spacing: 1px;
             text-align: center;
             position: sticky;
@@ -266,7 +267,7 @@
     <!-- CABECERA GENERAL -->
     <div class="global-header">
         <div class="global-title-container">
-            <div class="global-title">CENTRO DE CONTROL - TELEVENTAS</div>
+            <div class="global-title">CENTRO DE CONTROL - TELEVENTAS XL</div>
             <div class="update-time" id="updateTimestamp">Sincronizando última hora...</div>
         </div>
         <div class="controls-group">
@@ -280,7 +281,7 @@
         </div>
     </div>
 
-    <!-- CONTENEDOR DE LOS DOS PANELES -->
+    <!-- CONTENEDOR DE LOS DOS PANELES AMPLIADOS -->
     <div class="dashboards-container">
 
         <!-- PANEL 1: TABLEU -->
@@ -505,7 +506,7 @@
             </div>
         </div>
 
-        <!-- PANEL 2: GESTIONES ACTIVAS (MISMOS ASESORES) -->
+        <!-- PANEL 2: GESTIONES ACTIVAS -->
         <div class="holo-stage">
             <div class="holo-terminal">
                 <div class="terminal-header-panel">⚡ ACTIVAS DE CADA ASESOR</div>
