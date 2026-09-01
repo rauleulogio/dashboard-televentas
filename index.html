@@ -122,8 +122,8 @@
     </div>
 
     <script>
-        // ENLACE DE API DE SHEET.BEST INTEGRADO
-        const API_URL = "https://api.sheetbest.com/sheets/1f57e554-8744-418a-b037-d1d744b36008";
+        // ENLACE PROXY CORS INTEGRADO PARA EVITAR BLOQUEOS
+        const API_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://api.sheetbest.com/sheets/1f57e554-8744-418a-b037-d1d744b36008");
 
         function cargarDatosKPI() {
             fetch(API_URL)
@@ -140,7 +140,6 @@
                         return;
                     }
 
-                    // Recorrer los datos obtenidos del Excel y agregarlos a la tabla
                     data.forEach(fila => {
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
@@ -152,7 +151,6 @@
                         tbody.appendChild(tr);
                     });
 
-                    // Registrar la hora exacta en la que se descargaron y actualizaron los datos con éxito
                     const ahora = new Date();
                     const horaFormateada = ahora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                     document.getElementById('horaActualizacion').textContent = horaFormateada;
@@ -163,7 +161,6 @@
                 });
         }
 
-        // Cargar datos al iniciar y repetir automáticamente cada 60 segundos
         window.onload = function() {
             cargarDatosKPI();
             setInterval(cargarDatosKPI, 60000);
