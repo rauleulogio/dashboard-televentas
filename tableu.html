@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Televentas</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&display=swap');
 
         * {
             box-sizing: border-box;
@@ -19,7 +19,7 @@
                 linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
-            font-family: 'Lexend', sans-serif;
+            font-family: 'Share Tech Mono', monospace;
             color: #cbf3f9;
             min-height: 100vh;
             display: flex;
@@ -72,9 +72,9 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #10b981;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         .blink-core {
@@ -95,7 +95,7 @@
             border-collapse: collapse;
             width: 100%;
             text-align: left;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             white-space: nowrap;
         }
 
@@ -120,10 +120,11 @@
 
         th:first-child, td:first-child {
             text-align: left;
-            font-weight: 600;
+            font-weight: 700;
             color: #ffffff;
         }
 
+        /* Fila superior (JEAN ELIAS) y Totales */
         tr:first-child th, tr:first-child td, tr:last-child td {
             background: rgba(0, 243, 255, 0.15) !important;
             color: #00f3ff !important;
@@ -144,6 +145,7 @@
             font-variant-numeric: tabular-nums;
         }
 
+        /* Celdas de calor exactas según la imagen original */
         .heat-green {
             background: rgba(16, 185, 129, 0.28) !important;
             color: #34d399 !important;
@@ -176,7 +178,7 @@
     <div class="holo-stage">
         <div class="holo-terminal">
             <div class="terminal-header">
-                <div class="terminal-title">TABLEU AGOSTO</div>
+                <div class="terminal-title"> TABLEU AGOSTO</div>
                 <div class="status-indicators">
                     <div class="blink-core"></div>
                     Raúl Eulogio
