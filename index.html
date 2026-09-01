@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>TELEVENTAS KPI</title>
+    <title>TELEVENTAS KPI - Televentas Dual Panel XL</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
 
@@ -61,7 +61,6 @@
             align-items: center;
             padding: 30px 20px;
             perspective: 2000px;
-            overflow-x: auto;
         }
 
         .global-header {
@@ -149,6 +148,7 @@
             max-width: 1750px;
             justify-content: center;
             flex-wrap: wrap;
+            align-items: flex-start;
         }
 
         .holo-stage {
@@ -169,7 +169,6 @@
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-color);
-            max-height: 820px;
             display: flex;
             flex-direction: column;
         }
@@ -198,9 +197,9 @@
             font-weight: 400;
         }
 
+        /* Sin límites de altura ni barras de desplazamiento internas */
         .table-responsive {
-            overflow-y: auto;
-            max-height: 700px;
+            width: 100%;
         }
 
         table {
@@ -286,7 +285,7 @@
         </div>
     </div>
 
-    <!-- CONTENEDOR DE LOS DOS PANELES AMPLIADOS -->
+    <!-- CONTENEDOR DE LOS DOS PANELES COMPLETOS -->
     <div class="dashboards-container">
 
         <!-- PANEL 1: TABLEU -->
@@ -294,7 +293,6 @@
             <div class="holo-terminal">
                 <div class="terminal-header-panel">
                     <span class="panel-title-text">📊 TABLEU AGOSTO</span>
-                    <!-- HORA FIJA DE MODIFICACIÓN DE TABLEU (Cámbiala aquí cuando edites el código) -->
                     <span class="panel-update-time">Actualizado: 01/09/2026, 02:22 p. m.</span>
                 </div>
                 <div class="table-responsive">
@@ -520,7 +518,6 @@
             <div class="holo-terminal">
                 <div class="terminal-header-panel">
                     <span class="panel-title-text">⚡ ACTIVAS DE CADA ASESOR</span>
-                    <!-- HORA FIJA DE MODIFICACIÓN DE ACTIVAS (Cámbiala aquí cuando edites el código) -->
                     <span class="panel-update-time">Actualizado: 01/09/2026, 02:22 p. m.</span>
                 </div>
                 <div class="table-responsive">
