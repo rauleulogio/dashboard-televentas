@@ -9,8 +9,8 @@
         :root {
             --bg-main: #02040a;
             --bg-gradient: radial-gradient(circle at 50% 15%, #0a1128 0%, #02040a 100%),
-                           linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
-                           linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
+                         linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
+                         linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
             --text-main: #cbf3f9;
             --terminal-bg: rgba(5, 9, 20, 0.95);
             --border-color: rgba(0, 243, 255, 0.35);
@@ -27,8 +27,8 @@
         .light-mode {
             --bg-main: #f0f4f8;
             --bg-gradient: radial-gradient(circle at 50% 15%, #e2e8f0 0%, #cbd5e1 100%),
-                           linear-gradient(rgba(0, 102, 204, 0.03) 1px, transparent 1px),
-                           linear-gradient(90deg, rgba(0, 102, 204, 0.03) 1px, transparent 1px);
+                         linear-gradient(rgba(0, 102, 204, 0.03) 1px, transparent 1px),
+                         linear-gradient(90deg, rgba(0, 102, 204, 0.03) 1px, transparent 1px);
             --text-main: #1e293b;
             --terminal-bg: rgba(255, 255, 255, 0.95);
             --border-color: rgba(0, 102, 204, 0.3);
@@ -183,7 +183,6 @@
             opacity: 0.75;
         }
 
-        /* PERMITE EL DESPLAZAMIENTO HORIZONTAL FLUIDO SI LA TABLA ES ANCHA */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -213,7 +212,6 @@
             white-space: nowrap;
         }
 
-        /* NOMBRES EN UNA SOLA LÍNEA Y FIJOS A LA IZQUIERDA */
         th:first-child, td:first-child {
             text-align: left;
             font-weight: 600;
@@ -257,7 +255,6 @@
 </head>
 <body>
 
-    <!-- CABECERA GENERAL -->
     <div class="global-header">
         <div class="global-title-container">
             <div class="global-title">TELEVENTAS KPI</div>
@@ -273,10 +270,8 @@
         </div>
     </div>
 
-    <!-- CONTENEDOR DE LOS DOS PANELES -->
     <div class="dashboards-container">
 
-        <!-- PANEL 1: TABLEU -->
         <div class="holo-stage">
             <div class="holo-terminal">
                 <div class="terminal-header-panel">
@@ -415,7 +410,6 @@
                                 <td class="heat-yellow">71,62%</td>
                             </tr>
                             <tr>
-                                <td>MENDIGUETE NAVARRO GIANELLA MASSIEI</td>
                                 <td>MENDIGUETE NAVARRO GIANELLA MASSIEL</td>
                                 <td>1</td>
                                 <td class="heat-red">65</td>
@@ -489,12 +483,12 @@
                             </tr>
                             <tr>
                                 <td>Total general</td>
-                                <td>24</td>
-                                <td>374</td>
-                                <td>1276</td>
-                                <td>2</td>
-                                <td>1676</td>
-                                <td>76,13%</td>
+                                <td>40</td>
+                                <td>740</td>
+                                <td>2526</td>
+                                <td>4</td>
+                                <td>3310</td>
+                                <td>76,31%</td>
                             </tr>
                         </tbody>
                     </table>
@@ -502,7 +496,6 @@
             </div>
         </div>
 
-        <!-- PANEL 2: GESTIONES ACTIVAS (CON SCROLL HORIZONTAL) -->
         <div class="holo-stage">
             <div class="holo-terminal">
                 <div class="terminal-header-panel">
@@ -613,7 +606,6 @@
                                 <td class="heat-yellow">150</td>
                             </tr>
                             <tr>
-                                <td>MENDIGUETE NAVARRO GIANELLA MASSIEI</td>
                                 <td>MENDIGUETE NAVARRO GIANELLA MASSIEL</td>
                                 <td>40</td>
                                 <td>1</td>
@@ -643,38 +635,38 @@
                             </tr>
                             <tr>
                                 <td>SANCHEZ SILVA DANY</td>
-                                <td>14</td>
+                                <td>15</td>
                                 <td>0</td>
                                 <td>19</td>
-                                <td class="heat-yellow">140</td>
-                            </tr>
-                            <tr>
-                                <td>SILVA TELLO JACKELIN GREIS</td>
-                                <td>15</td>
-                                <td>3</td>
-                                <td>16</td>
                                 <td class="heat-yellow">150</td>
                             </tr>
                             <tr>
+                                <td>SILVA TELLO JACKELIN GREIS</td>
+                                <td>16</td>
+                                <td>0</td>
+                                <td>16</td>
+                                <td class="heat-green">160</td>
+                            </tr>
+                            <tr>
                                 <td>SOTO ZAVALA JENNIFER YADIRA</td>
-                                <td>13</td>
+                                <td>14</td>
                                 <td>0</td>
                                 <td>22</td>
-                                <td class="heat-orange">130</td>
+                                <td class="heat-yellow">140</td>
                             </tr>
                             <tr>
                                 <td>VARGAS INOÑAN ISMAEL ISAAC</td>
-                                <td>9</td>
-                                <td>1</td>
+                                <td>8</td>
+                                <td>0</td>
                                 <td>4</td>
-                                <td class="heat-green">90</td>
+                                <td class="heat-green">80</td>
                             </tr>
                             <tr>
                                 <td>Total general</td>
-                                <td>330</td>
-                                <td>24</td>
-                                <td>374</td>
-                                <td>3300</td>
+                                <td>313</td>
+                                <td>28</td>
+                                <td>740</td>
+                                <td>3130</td>
                             </tr>
                         </tbody>
                     </table>
@@ -689,7 +681,12 @@
             const body = document.body;
             const btn = document.getElementById('themeBtn');
             body.classList.toggle('light-mode');
-            btn.innerHTML = body.classList.contains('light-mode') ? '🌙 Modo Oscuro' : '☀️ Modo Claro';
+            
+            if (body.classList.contains('light-mode')) {
+                btn.innerHTML = '🌙 Modo Oscuro';
+            } else {
+                btn.innerHTML = '☀️ Modo Claro';
+            }
         }
     </script>
 </body>
