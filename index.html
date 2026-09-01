@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>TELEVENTAS KPI - Televentas Triple Panel XL</title>
+    <!-- 1. Librería PapaParse para leer datos desde Google Drive (CSV) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
 
@@ -67,6 +69,7 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
+            max-width: 1400px;
             margin-bottom: 20px;
             background: var(--terminal-bg);
             padding: 15px 25px;
@@ -133,9 +136,10 @@
             box-shadow: 0 0 18px rgba(0, 243, 255, 0.3);
         }
 
+        /* 2. Distribución en cuadrícula: 2 arriba y 1 abajo al centro */
         .dashboards-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Crea 2 columnas iguales arriba */
+            grid-template-columns: repeat(2, 1fr);
             gap: 25px;
             width: 100%;
             max-width: 1400px;
@@ -143,10 +147,9 @@
             align-items: flex-start;
         }
 
-        /* Hace que el tercer panel (el de abajo) ocupe las dos columnas y se Centre */
         .dashboards-container .holo-stage:nth-child(3) {
             grid-column: span 2;
-            max-width: 700px; /* Ajusta este valor si quieres que sea más ancho o angosto */
+            max-width: 900px;
             justify-self: center;
             width: 100%;
         }
@@ -685,7 +688,7 @@
             </div>
         </div>
 
-        <!-- Panel 3: Tipo de Ventas y Multipedido -->
+        <!-- Panel 3: Tipo de Ventas y Multipedido (Abajo al centro) -->
         <div class="holo-stage">
             <div class="holo-terminal">
                 <div class="terminal-header-panel">
@@ -697,9 +700,9 @@
                         <thead>
                             <tr>
                                 <th>AGENTE</th>
-                                <th>REGULARES</th>
-                                <th>MULTIPEDIDO</th>
-                                <th>ACTIVAS</th>
+                                <th>VENTAS REGULARES</th>
+                                <th>VENTAS MULTIPEDIDO</th>
+                                <th>TOTAL DE ACTIVAS</th>
                                 <th>% MULTIPEDIDO</th>
                             </tr>
                         </thead>
@@ -867,16 +870,48 @@
     </div>
 
     <script>
+        // 3. Configuración para lectura automática de Google Drive (CSV)
+        const CSV_URL = "TU_ENLACE_PUBLICADO_DE_GOOGLE_SHEETS_EN_FORMATO_CSV";
+
+        function cargarDatosDesdeDrive() {
+            if (CSV_URL.includes("TU_ENLACE")) {
+                console.warn("Configura el enlace CSV de Google Sheets para activar la sincronización automática.");
+                return;
+            }
+
+            Papa.parse(CSV_URL, {
+                download: true,
+                header: true,
+                complete: function(results) {
+                    console.log("Datos actualizados desde Google Drive:", results.data);
+                    // Aquí puedes mapear los datos del CSV a las filas de tus tablas automáticamente
+                    actualizarRelojYPantalla();
+                },
+                error: function(err) {
+                    console.error("Error al sincronizar con Google Drive:", err);
+                }
+            });
+        }
+
+        function actualizarRelojYPantalla() {
+            const ahora = new Date();
+            const fechaFormateada = ahora.toLocaleDateString('es-ES') + ' ' + ahora.toLocaleTimeString('es-ES');
+            document.querySelectorAll('.panel-update-time').forEach(el => {
+                el.textContent = `Actualizado: ${fechaFormateada}`;
+            });
+        }
+
+        window.onload = function() {
+            actualizarRelojYPantalla();
+            // Descomenta la siguiente línea cuando pegues tu enlace de Drive arriba:
+            // setInterval(cargarDatosDesdeDrive, 60000); // Se actualiza automáticamente cada 1 minuto
+        };
+
         function toggleTheme() {
             const body = document.body;
             const btn = document.getElementById('themeBtn');
             body.classList.toggle('light-mode');
-            
-            if (body.classList.contains('light-mode')) {
-                btn.innerHTML = '🌙 Modo Oscuro';
-            } else {
-                btn.innerHTML = '☀️ Modo Claro';
-            }
+            btn.innerHTML = body.classList.contains('light-mode') ? '🌙 Modo Oscuro' : '☀️ Modo Claro';
         }
     </script>
 </body>
