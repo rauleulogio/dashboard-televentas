@@ -108,21 +108,21 @@
             <thead>
                 <tr>
                     <th>Agente</th>
+                    <th>Activas</th>
                     <th>En Progreso</th>
-                    <th>Cerrados</th>
-                    <th>Total</th>
+                    <th>Canceladas</th>
+                    <th>Proyección</th>
                 </tr>
             </thead>
             <tbody id="cuerpoTabla">
                 <tr>
-                    <td colspan="4" style="text-align: center; color: var(--text-muted);">Conectando con la base de datos...</td>
+                    <td colspan="5" style="text-align: center; color: var(--text-muted);">Conectando con la base de datos...</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <script>
-        // ENLACE PROXY CORS INTEGRADO PARA EVITAR BLOQUEOS
         const API_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://api.sheetbest.com/sheets/1f57e554-8744-418a-b037-d1d744b36008");
 
         function cargarDatosKPI() {
@@ -136,17 +136,22 @@
                     tbody.innerHTML = ""; 
 
                     if (!data || data.length === 0) {
-                        tbody.innerHTML = `<tr><td colspan="4" style="text-align: center;">No hay registros disponibles.</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No hay registros disponibles.</td></tr>`;
                         return;
                     }
 
                     data.forEach(fila => {
+                        // Filtramos para ignorar filas vacías o de totales generales si es necesario
+                        const agente = fila['AGENTE'];
+                        if (!agente || agente.trim() === "" || agente.includes("Total general")) return;
+
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td>${fila['AGENTE'] || ''}</td>
+                            <td>${agente}</td>
+                            <td>${fila['ACTIVAS'] || '0'}</td>
                             <td>${fila['EN PROGRESO'] || '0'}</td>
-                            <td>${fila['CERRADOS'] || '0'}</td>
-                            <td>${fila['TOTAL'] || '0'}</td>
+                            <td>${fila['CANCELADAS'] || '0'}</td>
+                            <td>${fila['PROYECCIÓN'] || '0'}</td>
                         `;
                         tbody.appendChild(tr);
                     });
