@@ -67,8 +67,7 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            max-width: 1400px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             background: var(--terminal-bg);
             padding: 15px 25px;
             border-radius: 12px;
@@ -134,31 +133,26 @@
             box-shadow: 0 0 18px rgba(0, 243, 255, 0.3);
         }
 
-        .dashboards-container {
-            max-width: 1400px;
-            width: 100%;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            align-items: center;
-        }
+        .dashboard-container, body > .main-wrapper {
+         max-width: 1400px; /* O el ancho exacto que estén usando tus tablas de arriba */
+        margin: 0 auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra todo perfectamente */
+       }
 
-        .dashboards-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            width: 100%;
-        }
-
-        @media (max-width: 1024px) {
-            .dashboards-row {
-                grid-template-columns: 1fr;
-            }
-        }
+.dashboards-row, 
+.dashboards-row.single, 
+.dashboards-row.double {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
 
         .holo-stage {
-            width: 100%;
+            flex: 1;
+            min-width: 0;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 243, 255, 0.06);
             border-radius: 14px;
             padding: 3px;
@@ -287,10 +281,8 @@
 
     <div class="dashboards-container">
 
-        <!-- Fila Superior con las 2 tablas completas -->
+        <!-- Fila Superior con las 2 tablas originales -->
         <div class="dashboards-row">
-            
-            <!-- Tabla 1: TABLEU AGOSTO -->
             <div class="holo-stage">
                 <div class="holo-terminal">
                     <div class="terminal-header-panel">
@@ -515,7 +507,6 @@
                 </div>
             </div>
 
-            <!-- Tabla 2: ACTIVAS DE CADA ASESOR -->
             <div class="holo-stage">
                 <div class="holo-terminal">
                     <div class="terminal-header-panel">
@@ -662,31 +653,204 @@
                                 </tr>
                                 <tr>
                                     <td>SOTO ZAVALA JENNIFER YADIRA</td>
-                                    <td>11</td>
+                                    <td>14</td>
                                     <td>0</td>
                                     <td>22</td>
-                                    <td class="heat-yellow">110</td>
+                                    <td class="heat-yellow">140</td>
                                 </tr>
                                 <tr>
                                     <td>VARGAS INOÑAN ISMAEL ISAAC</td>
-                                    <td>10</td>
-                                    <td>1</td>
+                                    <td>8</td>
+                                    <td>0</td>
                                     <td>4</td>
-                                    <td class="heat-green">100</td>
+                                    <td class="heat-green">80</td>
                                 </tr>
                                 <tr>
                                     <td>Total general</td>
-                                    <td>324</td>
-                                    <td>34</td>
-                                    <td>686</td>
-                                    <td>3240</td>
+                                    <td>313</td>
+                                    <td>28</td>
+                                    <td>740</td>
+                                    <td>3130</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- Fila Inferior con la Tercera Tabla: MULTIPEDIDO -->
+            <div class="dashboards-row single">
+            <div class="holo-stage" style="flex: 1; width: 100%;">
+                <div class="holo-terminal">
+                    <div class="terminal-header-panel">
+                        <span class="panel-title-text">📦 CONTROL DE MULTIPEDIDO</span>
+                        <span class="panel-update-time">Actualizado: 01/09/2026</span>
+                    </div>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>AGENTE</th>
+                                    <th>VENTA REGULAR</th>
+                                    <th>VENTA MULTILINEA</th>
+                                    <th>ACTIVAS TOTAL</th>
+                                    <th>% DE MULTIPEDIDO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>JEAN ELIAS</td>
+                                    <td>35</td>
+                                    <td>10</td>
+                                    <td>45</td>
+                                    <td class="heat-green">22,22%</td>
+                                </tr>
+                                <tr>
+                                    <td>AGRAMONTE MEDRANO KRISTEL</td>
+                                    <td>10</td>
+                                    <td>4</td>
+                                    <td>14</td>
+                                    <td class="heat-green">28,57%</td>
+                                </tr>
+                                <tr>
+                                    <td>BECERRA SUAREZ ANGHIE YAMILE</td>
+                                    <td>4</td>
+                                    <td>1</td>
+                                    <td>5</td>
+                                    <td class="heat-yellow">20,00%</td>
+                                </tr>
+                                <tr>
+                                    <td>CAVERO ARRUNATEGUI CHRISTOPHER RAI</td>
+                                    <td>8</td>
+                                    <td>2</td>
+                                    <td>10</td>
+                                    <td class="heat-yellow">20,00%</td>
+                                </tr>
+                                <tr>
+                                    <td>CCOÑAS DIAZ OSCAR RAFAEL</td>
+                                    <td>9</td>
+                                    <td>3</td>
+                                    <td>12</td>
+                                    <td class="heat-green">25,00%</td>
+                                </tr>
+                                <tr>
+                                    <td>CURO SALAZAR ELVA EDITH</td>
+                                    <td>7</td>
+                                    <td>2</td>
+                                    <td>9</td>
+                                    <td class="heat-yellow">22,22%</td>
+                                </tr>
+                                <tr>
+                                    <td>EULOGIO TERRANOVA RAÚL HUGO</td>
+                                    <td>28</td>
+                                    <td>10</td>
+                                    <td>38</td>
+                                    <td class="heat-green">26,32%</td>
+                                </tr>
+                                <tr>
+                                    <td>FARIAS RAVELLO SCARLET TAMARA SASHA</td>
+                                    <td>5</td>
+                                    <td>1</td>
+                                    <td>6</td>
+                                    <td class="heat-yellow">16,67%</td>
+                                </tr>
+                                <tr>
+                                    <td>FLORES ROSAS YESENIA YESMITH</td>
+                                    <td>9</td>
+                                    <td>2</td>
+                                    <td>11</td>
+                                    <td class="heat-yellow">18,18%</td>
+                                </tr>
+                                <tr>
+                                    <td>LABAN MORALES FANY</td>
+                                    <td>10</td>
+                                    <td>3</td>
+                                    <td>13</td>
+                                    <td class="heat-green">23,08%</td>
+                                </tr>
+                                <tr>
+                                    <td>MALDONADO CASTILLO LUSMILA</td>
+                                    <td>17</td>
+                                    <td>5</td>
+                                    <td>22</td>
+                                    <td class="heat-green">22,73%</td>
+                                </tr>
+                                <tr>
+                                    <td>MATTOS JAUREGUI VALERIA MILAGROS</td>
+                                    <td>12</td>
+                                    <td>3</td>
+                                    <td>15</td>
+                                    <td class="heat-yellow">20,00%</td>
+                                </tr>
+                                <tr>
+                                    <td>MENDIGUETE NAVARRO GIANELLA MASSIEL</td>
+                                    <td>30</td>
+                                    <td>10</td>
+                                    <td>40</td>
+                                    <td class="heat-green">25,00%</td>
+                                </tr>
+                                <tr>
+                                    <td>MORENO LAYME DULCE ALEJANDRA</td>
+                                    <td>12</td>
+                                    <td>4</td>
+                                    <td>16</td>
+                                    <td class="heat-green">25,00%</td>
+                                </tr>
+                                <tr>
+                                    <td>MOROCHO VIDAL JUAN WALTER MIGUEL</td>
+                                    <td>13</td>
+                                    <td>5</td>
+                                    <td>18</td>
+                                    <td class="heat-green">27,78%</td>
+                                </tr>
+                                <tr>
+                                    <td>PÉREZ RIVERA SOL ANGEL</td>
+                                    <td>5</td>
+                                    <td>2</td>
+                                    <td>7</td>
+                                    <td class="heat-green">28,57%</td>
+                                </tr>
+                                <tr>
+                                    <td>SANCHEZ SILVA DANY</td>
+                                    <td>12</td>
+                                    <td>3</td>
+                                    <td>15</td>
+                                    <td class="heat-yellow">20,00%</td>
+                                </tr>
+                                <tr>
+                                    <td>SILVA TELLO JACKELIN GREIS</td>
+                                    <td>12</td>
+                                    <td>4</td>
+                                    <td>16</td>
+                                    <td class="heat-green">25,00%</td>
+                                </tr>
+                                <tr>
+                                    <td>SOTO ZAVALA JENNIFER YADIRA</td>
+                                    <td>11</td>
+                                    <td>3</td>
+                                    <td>14</td>
+                                    <td class="heat-yellow">21,43%</td>
+                                </tr>
+                                <tr>
+                                    <td>VARGAS INOÑAN ISMAEL ISAAC</td>
+                                    <td>6</td>
+                                    <td>2</td>
+                                    <td>8</td>
+                                    <td class="heat-green">25,00%</td>
+                                </tr>
+                                <tr>
+                                    <td>Total general</td>
+                                    <td>273</td>
+                                    <td>40</td>
+                                    <td>313</td>
+                                    <td>22,68%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -694,13 +858,13 @@
     <script>
         function toggleTheme() {
             const body = document.body;
-            const themeBtn = document.getElementById('themeBtn');
+            const btn = document.getElementById('themeBtn');
             body.classList.toggle('light-mode');
             
             if (body.classList.contains('light-mode')) {
-                themeBtn.innerHTML = '🌙 Modo Oscuro';
+                btn.innerHTML = '🌙 Modo Oscuro';
             } else {
-                themeBtn.innerHTML = '☀️ Modo Claro';
+                btn.innerHTML = '☀️ Modo Claro';
             }
         }
     </script>
