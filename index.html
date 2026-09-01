@@ -136,28 +136,21 @@
                     tbody.innerHTML = ""; 
 
                     if (!data || data.length === 0) {
-                        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No hay registros disponibles.</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">No hay registros disponibles en el Excel.</td></tr>`;
                         return;
                     }
 
-                    // Función auxiliar para buscar claves sin importar tildes, mayúsculas o espacios
-                    function obtenerValor(fila, posiblesNombres) {
-                        const keys = Object.keys(fila);
-                        for (let nombre of posiblesNombres) {
-                            let match = keys.find(k => k.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
-                            if (match !== undefined) return fila[match];
-                        }
-                        return '0';
-                    }
-
                     data.forEach(fila => {
-                        let agente = obtenerValor(fila, ['AGENTE', 'ASESOR', 'NOMBRE']);
-                        if (!agente || agente.toString().trim() === "" || agente.toString().toLowerCase().includes("total")) return;
+                        // Lee directamente las columnas exactas de tu Excel
+                        const agente = fila['AGENTE'];
+                        
+                        // Si la fila está vacía o es una cabecera repetida, la salta
+                        if (!agente || agente.trim() === "" || agente.toLowerCase().includes("agente")) return;
 
-                        let activas = obtenerValor(fila, ['ACTIVAS', 'ACTIVA']);
-                        let enProgreso = obtenerValor(fila, ['EN PROGRESO', 'EN_PROGRESO', 'PROGRESO']);
-                        let canceladas = obtenerValor(fila, ['CANCELADAS', 'CANCELADA']);
-                        let proyeccion = obtenerValor(fila, ['PROYECCION', 'PROYECCIÓN']);
+                        const activas = fila['ACTIVAS'] !== undefined ? fila['ACTIVAS'] : '0';
+                        const enProgreso = fila['EN PROGRESO'] !== undefined ? fila['EN PROGRESO'] : '0';
+                        const canceladas = fila['CANCELADAS'] !== undefined ? fila['CANCELADAS'] : '0';
+                        const proyeccion = fila['PROYECCIÓN'] !== undefined ? fila['PROYECCIÓN'] : (fila['PROYECCION'] !== undefined ? fila['PROYECCION'] : '0');
 
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
@@ -171,7 +164,7 @@
                     });
 
                     if (tbody.innerHTML === "") {
-                        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Los datos llegaron vacíos o los nombres de las columnas no coinciden.</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Se conectó a SheetDB pero no se encontraron filas de agentes válidas.</td></tr>`;
                     }
 
                     const ahora = new Date();
@@ -186,7 +179,7 @@
 
         window.onload = function() {
             cargarDatosKPI();
-            setInterval(cargarDatosKPI, 60000);
+            setInterval(cargarDatosKPI, 60000); // Actualiza cada 1 minuto
         };
 
         function toggleTheme() {
