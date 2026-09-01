@@ -75,8 +75,25 @@
             max-width: 1200px;
             display: flex;
             justify-content: flex-end;
+            align-items: center;
             margin-bottom: 20px;
             gap: 15px;
+        }
+
+        /* Estilo para la etiqueta de actualización idéntico a tu referencia */
+        .update-badge {
+            background: var(--terminal-bg);
+            border: 1px solid var(--terminal-border);
+            color: var(--title-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .theme-toggle {
@@ -259,6 +276,10 @@
 <body>
 
     <div class="controls-bar">
+        <!-- Etiqueta de actualización agregada aquí -->
+        <div class="update-badge">
+            <span>Actualizado:</span> <span id="updateTime">2026-09-01 12:23:26</span>
+        </div>
         <button class="theme-toggle" id="themeToggleBtn" onclick="toggleTheme()">
             <span id="themeIcon">☀️</span> <span id="themeText">Modo Claro</span>
         </button>
@@ -511,7 +532,7 @@
                                 <th>EN PROGRESO</th>
                                 <th>CANCELADAS</th>
                                 <th>ACTIVAS</th>
-                                <th>PROYECCIÓN</th>
+                                <th>PROYECCIÓN DE ACTIVAS HASTA FIN DE MES</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -535,6 +556,13 @@
                                 <td>8</td>
                                 <td>15</td>
                                 <td class="heat-yellow">19</td>
+                            </tr>
+                            <tr>
+                                <td>BURGOS MAMANI RICHARD</td>
+                                <td>3</td>
+                                <td>6</td>
+                                <td>22</td>
+                                <td class="heat-yellow">28</td>
                             </tr>
                             <tr>
                                 <td>CAVERO ARRUNATEGUI CHRISTOPHER RAI</td>
@@ -709,6 +737,13 @@
                                 <td>17</td>
                                 <td>15</td>
                                 <td>15</td>
+                                <td class="heat-green">100,00%</td>
+                            </tr>
+                            <tr>
+                                <td>BURGOS MAMANI RICHARD</td>
+                                <td>19</td>
+                                <td>22</td>
+                                <td>22</td>
                                 <td class="heat-green">100,00%</td>
                             </tr>
                             <tr>
