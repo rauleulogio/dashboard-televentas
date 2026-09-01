@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Televentas - KPI</title>
+    <title>TELEVENTAS KPI - Televentas Dual Panel XL</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
 
@@ -92,13 +92,6 @@
             text-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
         }
 
-        .update-time {
-            font-size: 0.85rem;
-            color: var(--text-main);
-            opacity: 0.7;
-            margin-top: 4px;
-        }
-
         .controls-group {
             display: flex;
             align-items: center;
@@ -176,7 +169,7 @@
             border-radius: 12px;
             overflow: hidden;
             border: 1px solid var(--border-color);
-            max-height: 800px;
+            max-height: 820px;
             display: flex;
             flex-direction: column;
         }
@@ -185,11 +178,24 @@
             background: var(--header-bg);
             padding: 16px 22px;
             border-bottom: 2px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title-text {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.1rem;
             font-weight: 700;
             color: var(--title-color);
             letter-spacing: 1.5px;
+        }
+
+        .panel-update-time {
+            font-size: 0.8rem;
+            color: var(--text-main);
+            opacity: 0.75;
+            font-weight: 400;
         }
 
         .table-responsive {
@@ -267,8 +273,7 @@
     <!-- CABECERA GENERAL -->
     <div class="global-header">
         <div class="global-title-container">
-            <div class="global-title">CENTRO DE CONTROL - TELEVENTAS XL</div>
-            <div class="update-time" id="updateTimestamp">Sincronizando última hora...</div>
+            <div class="global-title">TELEVENTAS KPI</div>
         </div>
         <div class="controls-group">
             <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn">
@@ -287,7 +292,11 @@
         <!-- PANEL 1: TABLEU -->
         <div class="holo-stage">
             <div class="holo-terminal">
-                <div class="terminal-header-panel">📊 TABLEU AGOSTO</div>
+                <div class="terminal-header-panel">
+                    <span class="panel-title-text">📊 TABLEU AGOSTO</span>
+                    <!-- HORA FIJA DE MODIFICACIÓN DE TABLEU (Cámbiala aquí cuando edites el código) -->
+                    <span class="panel-update-time">Actualizado: 01/09/2026, 02:22 p. m.</span>
+                </div>
                 <div class="table-responsive">
                     <table>
                         <thead>
@@ -509,7 +518,11 @@
         <!-- PANEL 2: GESTIONES ACTIVAS -->
         <div class="holo-stage">
             <div class="holo-terminal">
-                <div class="terminal-header-panel">⚡ ACTIVAS DE CADA ASESOR</div>
+                <div class="terminal-header-panel">
+                    <span class="panel-title-text">⚡ ACTIVAS DE CADA ASESOR</span>
+                    <!-- HORA FIJA DE MODIFICACIÓN DE ACTIVAS (Cámbiala aquí cuando edites el código) -->
+                    <span class="panel-update-time">Actualizado: 01/09/2026, 02:22 p. m.</span>
+                </div>
                 <div class="table-responsive">
                     <table>
                         <thead>
@@ -685,11 +698,6 @@
     </div>
 
     <script>
-        // Sincronización horaria automática
-        const now = new Date();
-        const options = { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
-        document.getElementById('updateTimestamp').innerText = 'Última actualización: ' + now.toLocaleDateString('es-PE', options);
-
         // Función Modo Oscuro / Modo Claro global
         function toggleTheme() {
             const body = document.body;
