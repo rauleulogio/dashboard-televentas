@@ -133,7 +133,6 @@
             box-shadow: 0 0 18px rgba(0, 243, 255, 0.3);
         }
 
-        /* Una tabla debajo de otra, evitando barras de desplazamiento globales */
         .dashboards-container {
             display: grid;
             grid-template-columns: 1fr;
@@ -279,7 +278,7 @@
             <div class="holo-terminal">
                 <div class="terminal-header-panel">
                     <span class="panel-title-text">📊 TABLEU AGOSTO</span>
-                    <span class="panel-update-time" id="updateTime1">Actualizado: --/--/---- --:--:--</span>
+                    <span class="panel-update-time">Actualizado: 01/09/2026 16:50:54</span>
                 </div>
                 <div class="table-responsive">
                     <table>
@@ -504,7 +503,7 @@
             <div class="holo-terminal">
                 <div class="terminal-header-panel">
                     <span class="panel-title-text">⚡ ACTIVAS DE CADA ASESOR</span>
-                    <span class="panel-update-time" id="updateTime2">Actualizado: --/--/---- --:--:--</span>
+                    <span class="panel-update-time">Actualizado: 01/09/2026 16:50:54</span>
                 </div>
                 <div class="table-responsive">
                     <table>
@@ -683,7 +682,7 @@
             <div class="holo-terminal">
                 <div class="terminal-header-panel">
                     <span class="panel-title-text">📦 MULTIPEDIDO</span>
-                    <span class="panel-update-time" id="updateTime3">Actualizado: --/--/---- --:--:--</span>
+                    <span class="panel-update-time">Actualizado: 01/09/2026 16:50:54</span>
                 </div>
                 <div class="table-responsive">
                     <table>
@@ -847,7 +846,7 @@
                             <tr>
                                 <td>Total general</td>
                                 <td>2,287</td>
-                               <td>270</td>
+                                <td>270</td>
                                 <td>30</td>
                                 <td>2,526</td>
                             </tr>
@@ -860,24 +859,6 @@
     </div>
 
     <script>
-        // Script para mostrar la fecha y hora exacta en la que se genera/actualiza el código
-        const now = new Date();
-        const formattedDate = now.toLocaleDateString('es-PE', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
-        const formattedTime = now.toLocaleTimeString('es-PE', {
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        });
-        
-        const updateString = `Actualizado: ${formattedDate} ${formattedTime}`;
-        document.getElementById('updateTime1').innerText = updateString;
-        document.getElementById('updateTime2').innerText = updateString;
-        document.getElementById('updateTime3').innerText = updateString;
-
         function toggleTheme() {
             const body = document.body;
             const btn = document.getElementById('themeBtn');
