@@ -144,25 +144,14 @@
             width: 100%;
         }
 
-        .dashboards-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            width: 100% !important;
-            max-width: 100% !important;
-            box-sizing: border-box;
-        }
+.dashboards-row, 
+.dashboards-row.single, 
+.dashboards-row.double {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
 
-        .dashboards-row.single {
-            grid-template-columns: 1fr;
-            width: 100% !important;
-        }
-
-        @media (max-width: 1024px) {
-            .dashboards-row {
-                grid-template-columns: 1fr;
-            }
-        }
 
         .holo-stage {
             flex: 1;
