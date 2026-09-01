@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Televentas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #02040a;
+            background-image: 
+                radial-gradient(circle at 50% 15%, #0a1128 0%, #02040a 100%),
+                linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            font-family: 'Lexend', sans-serif;
+            color: #cbf3f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            perspective: 1500px;
+            overflow-x: auto;
+        }
+
+        .holo-stage {
+            transform: rotateX(6deg) rotateY(-1deg);
+            transform-style: preserve-3d;
+            box-shadow: 0 40px 90px rgba(0, 0, 0, 0.9),
+                        0 0 50px rgba(0, 243, 255, 0.12),
+                        inset 0 0 30px rgba(0, 243, 255, 0.05);
+            border-radius: 12px;
+            padding: 3px;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.5), rgba(139, 92, 246, 0.5), rgba(16, 185, 129, 0.5));
+        }
+
+        .holo-terminal {
+            background: rgba(5, 9, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 243, 255, 0.35);
+        }
+
+        .terminal-header {
+            background: linear-gradient(90deg, rgba(10, 18, 38, 0.98), rgba(20, 30, 55, 0.98));
+            padding: 14px 20px;
+            border-bottom: 2px solid rgba(0, 243, 255, 0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terminal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #00f3ff;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+        }
+
+        .status-indicators {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #10b981;
+            letter-spacing: 0.5px;
+        }
+
+        .blink-core {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+            animation: blink 1.2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 0.3; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px #10b981; }
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            text-align: left;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        th, td {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.08);
+            border-right: 1px solid rgba(0, 243, 255, 0.05);
+        }
+
+        th {
+            background: linear-gradient(180deg, #132238 0%, #091122 100%);
+            color: #00f3ff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-align: center;
+            text-shadow: 0 0 6px rgba(0, 243, 255, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        th:first-child, td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        tr:first-child th, tr:first-child td, tr:last-child td {
+            background: rgba(0, 243, 255, 0.15) !important;
+            color: #00f3ff !important;
+            font-weight: 700;
+            border-top: 1px solid rgba(0, 243, 255, 0.4);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.4);
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
+        }
+
+        tr:hover td {
+            background-color: rgba(0, 243, 255, 0.04);
+            box-shadow: inset 0 0 12px rgba(0, 243, 255, 0.1);
+            transition: background 0.15s ease;
+        }
+
+        td:not(:first-child) {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .heat-green {
+            background: rgba(16, 185, 129, 0.28) !important;
+            color: #34d399 !important;
+            font-weight: 700;
+            text-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
+        }
+
+        .heat-red {
+            background: rgba(239, 68, 68, 0.28) !important;
+            color: #f87171 !important;
+            font-weight: 700;
+            text-shadow: 0 0 6px rgba(248, 113, 113, 0.5);
+        }
+
+        .heat-yellow {
+            background: rgba(234, 179, 8, 0.22) !important;
+            color: #facc15 !important;
+            font-weight: 600;
+        }
+
+        .heat-orange {
+            background: rgba(249, 115, 22, 0.22) !important;
+            color: #fb923c !important;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="holo-stage">
+        <div class="holo-terminal">
+            <div class="terminal-header">
+                <div class="terminal-title">TABLEU AGOSTO</div>
+                <div class="status-indicators">
+                    <div class="blink-core"></div>
+                    Raúl Eulogio
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>AGENTE</th>
+                        <th>EN PROGRESO</th>
+                        <th>CANCELADAS</th>
+                        <th>CERRADAS</th>
+                        <th>ERROR</th>
+                        <th>Total general</th>
+                        <th>% TABLEU</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>JEAN ELIAS</td>
+                        <td>24</td>
+                        <td>374</td>
+                        <td>1276</td>
+                        <td>2</td>
+                        <td>1676</td>
+                        <td class="heat-yellow">76,13%</td>
+                    </tr>
+                    <tr>
+                        <td>AGRAMONTE MEDRANO KRISTEL</td>
+                        <td class="heat-green">2</td>
+                        <td>13</td>
+                        <td class="heat-green">82</td>
+                        <td></td>
+                        <td>97</td>
+                        <td class="heat-green">84,54%</td>
+                    </tr>
+                    <tr>
+                        <td>BECERRA SUAREZ ANGHIE YAMILE</td>
+                        <td></td>
+                        <td class="heat-orange">12</td>
+                        <td class="heat-red">20</td>
+                        <td></td>
+                        <td>32</td>
+                        <td class="heat-red">62,50%</td>
+                    </tr>
+                    <tr>
+                        <td>BURGOS MAMANI RICHARD</td>
+                        <td></td>
+                        <td class="heat-orange">12</td>
+                        <td class="heat-orange">29</td>
+                        <td></td>
+                        <td>41</td>
+                        <td class="heat-orange">70,73%</td>
+                    </tr>
+                    <tr>
+                        <td>CAVERO ARRUNATEGUI CHRISTOPHER RAI</td>
+                        <td>4</td>
+                        <td class="heat-yellow">19</td>
+                        <td class="heat-orange">40</td>
+                        <td></td>
+                        <td>63</td>
+                        <td class="heat-red">63,49%</td>
+                    </tr>
+                    <tr>
+                        <td>CCOÑAS DIAZ OSCAR RAFAEL</td>
+                        <td></td>
+                        <td class="heat-yellow">10</td>
+                        <td class="heat-orange">36</td>
+                        <td></td>
+                        <td>46</td>
+                        <td class="heat-yellow">78,26%</td>
+                    </tr>
+                    <tr>
+                        <td>CURO SALAZAR ELVA EDITH</td>
+                        <td></td>
+                        <td class="heat-yellow">9</td>
+                        <td class="heat-orange">31</td>
+                        <td>1</td>
+                        <td>41</td>
+                        <td class="heat-yellow">75,61%</td>
+                    </tr>
+                    <tr>
+                        <td>EULOGIO TERRANOVA RAÚL HUGO</td>
+                        <td>3</td>
+                        <td class="heat-red">42</td>
+                        <td class="heat-green">207</td>
+                        <td></td>
+                        <td>252</td>
+                        <td class="heat-green">82,14%</td>
+                    </tr>
+                    <tr>
+                        <td>FARIAS RAVELLO SCARLET TAMARA SASHA</td>
+                        <td>1</td>
+                        <td class="heat-orange">14</td>
+                        <td class="heat-red">21</td>
+                        <td></td>
+                        <td>36</td>
+                        <td class="heat-red">58,33%</td>
+                    </tr>
+                    <tr>
+                        <td>FLORES ROSAS YESENIA YESMITH</td>
+                        <td>1</td>
+                        <td class="heat-yellow">24</td>
+                        <td class="heat-orange">41</td>
+                        <td></td>
+                        <td>66</td>
+                        <td class="heat-red">62,12%</td>
+                    </tr>
+                    <tr>
+                        <td>LABAN MORALES FANY</td>
+                        <td></td>
+                        <td class="heat-yellow">21</td>
+                        <td class="heat-orange">43</td>
+                        <td></td>
+                        <td>64</td>
+                        <td class="heat-orange">67,19%</td>
+                    </tr>
+                    <tr>
+                        <td>MALDONADO CASTILLO LUSMILA</td>
+                        <td></td>
+                        <td class="heat-yellow">21</td>
+                        <td class="heat-green">99</td>
+                        <td></td>
+                        <td>120</td>
+                        <td class="heat-green">82,50%</td>
+                    </tr>
+                    <tr>
+                        <td>MATTOS JAUREGUI VALERIA MILAGROS</td>
+                        <td>4</td>
+                        <td class="heat-yellow">17</td>
+                        <td class="heat-yellow">53</td>
+                        <td></td>
+                        <td>74</td>
+                        <td class="heat-yellow">71,62%</td>
+                    </tr>
+                    <tr>
+                        <td>MENDIGUETE NAVARRO GIANELLA MASSIEI</td>
+                        <td>1</td>
+                        <td class="heat-red">65</td>
+                        <td class="heat-green">204</td>
+                        <td></td>
+                        <td>270</td>
+                        <td class="heat-yellow">75,56%</td>
+                    </tr>
+                    <tr>
+                        <td>MORENO LAYME DULCE ALEJANDRA</td>
+                        <td>1</td>
+                        <td class="heat-yellow">21</td>
+                        <td class="heat-green">74</td>
+                        <td>1</td>
+                        <td>97</td>
+                        <td class="heat-yellow">76,29%</td>
+                    </tr>
+                    <tr>
+                        <td>MOROCHO VIDAL JUAN WALTER MIGUEL</td>
+                        <td>2</td>
+                        <td class="heat-yellow">10</td>
+                        <td class="heat-green">74</td>
+                        <td></td>
+                        <td>86</td>
+                        <td class="heat-green">86,05%</td>
+                    </tr>
+                    <tr>
+                        <td>PÉREZ RIVERA SOL ANGEL</td>
+                        <td>1</td>
+                        <td class="heat-red">3</td>
+                        <td class="heat-red">25</td>
+                        <td></td>
+                        <td>29</td>
+                        <td class="heat-green">86,21%</td>
+                    </tr>
+                    <tr>
+                        <td>SANCHEZ SILVA DANY</td>
+                        <td></td>
+                        <td class="heat-yellow">19</td>
+                        <td class="heat-yellow">56</td>
+                        <td></td>
+                        <td>75</td>
+                        <td class="heat-yellow">74,67%</td>
+                    </tr>
+                    <tr>
+                        <td>SILVA TELLO JACKELIN GREIS</td>
+                        <td>3</td>
+                        <td class="heat-yellow">16</td>
+                        <td class="heat-yellow">57</td>
+                        <td></td>
+                        <td>76</td>
+                        <td class="heat-yellow">75,00%</td>
+                    </tr>
+                    <tr>
+                        <td>SOTO ZAVALA JENNIFER YADIRA</td>
+                        <td></td>
+                        <td class="heat-yellow">22</td>
+                        <td class="heat-yellow">50</td>
+                        <td></td>
+                        <td>72</td>
+                        <td class="heat-orange">69,44%</td>
+                    </tr>
+                    <tr>
+                        <td>VARGAS INOÑAN ISMAEL ISAAC</td>
+                        <td>1</td>
+                        <td class="heat-red">4</td>
+                        <td class="heat-orange">34</td>
+                        <td></td>
+                        <td>39</td>
+                        <td class="heat-green">87,18%</td>
+                    </tr>
+                    <tr>
+                        <td>Total general</td>
+                        <td>24</td>
+                        <td>374</td>
+                        <td>1276</td>
+                        <td>2</td>
+                        <td>1676</td>
+                        <td>76,13%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
