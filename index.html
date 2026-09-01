@@ -135,12 +135,20 @@
 
         .dashboards-container {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr); /* Crea 2 columnas iguales arriba */
             gap: 25px;
             width: 100%;
             max-width: 1400px;
             justify-content: center;
             align-items: flex-start;
+        }
+
+        /* Hace que el tercer panel (el de abajo) ocupe las dos columnas y se Centre */
+        .dashboards-container .holo-stage:nth-child(3) {
+            grid-column: span 2;
+            max-width: 700px; /* Ajusta este valor si quieres que sea más ancho o angosto */
+            justify-self: center;
+            width: 100%;
         }
 
         .holo-stage {
