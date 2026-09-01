@@ -2,557 +2,398 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TELEVENTAS KPI - Televentas Dashboard</title>
+    <title>Televentas</title>
     <style>
-        :root {
-            --bg-color: #0b0f19;
-            --panel-bg: #111827;
-            --border-color: #0ef;
-            --text-color: #ffffff;
-            --text-muted: #9ca3af;
-            --table-header: #0f172a;
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Orbitron:wght@500;700;900&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            padding: 20px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #02040a;
+            background-image: 
+                radial-gradient(circle at 50% 15%, #0a1128 0%, #02040a 100%),
+                linear-gradient(rgba(0, 243, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            font-family: 'Lexend', sans-serif;
+            color: #cbf3f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            perspective: 1500px;
+            overflow-x: auto;
         }
 
-        header {
+        .holo-stage {
+            transform: rotateX(6deg) rotateY(-1deg);
+            transform-style: preserve-3d;
+            box-shadow: 0 40px 90px rgba(0, 0, 0, 0.9),
+                        0 0 50px rgba(0, 243, 255, 0.12),
+                        inset 0 0 30px rgba(0, 243, 255, 0.05);
+            border-radius: 12px;
+            padding: 3px;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.5), rgba(139, 92, 246, 0.5), rgba(16, 185, 129, 0.5));
+        }
+
+        .holo-terminal {
+            background: rgba(5, 9, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 243, 255, 0.35);
+        }
+
+        .terminal-header {
+            background: linear-gradient(90deg, rgba(10, 18, 38, 0.98), rgba(20, 30, 55, 0.98));
+            padding: 14px 20px;
+            border-bottom: 2px solid rgba(0, 243, 255, 0.4);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0, 238, 255, 0.2);
         }
 
-        h1 {
-            margin: 0;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            color: var(--border-color);
+        .terminal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #00f3ff;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
         }
 
-        .user-info {
+        .status-indicators {
             display: flex;
-            gap: 15px;
             align-items: center;
-        }
-
-        .btn-mode {
-            background-color: #fbbf24;
-            border: none;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
+            gap: 10px;
             font-size: 0.85rem;
+            color: #10b981;
+            letter-spacing: 0.5px;
         }
 
-        .user-badge {
-            background-color: #064e3b;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid #10b981;
+        .blink-core {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #10b981;
+            animation: blink 1.2s infinite;
         }
 
-        .dashboard-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 1200px) {
-            .dashboard-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 0 10px rgba(0, 238, 255, 0.1);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
-
-        .update-time {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-weight: normal;
+        @keyframes blink {
+            0%, 100% { opacity: 0.3; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px #10b981; }
         }
 
         table {
-            width: 100%;
             border-collapse: collapse;
-            font-size: 0.8rem;
+            width: 100%;
+            text-align: left;
+            font-size: 0.9rem;
+            white-space: nowrap;
         }
 
         th, td {
-            padding: 8px 10px;
-            text-align: left;
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(0, 243, 255, 0.08);
+            border-right: 1px solid rgba(0, 243, 255, 0.05);
         }
 
         th {
-            background-color: var(--table-header);
-            color: var(--text-muted);
-            text-transform: uppercase;
-            font-size: 0.7rem;
-            border-bottom: 1px solid #374151;
+            background: linear-gradient(180deg, #132238 0%, #091122 100%);
+            color: #00f3ff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-align: center;
+            text-shadow: 0 0 6px rgba(0, 243, 255, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
-        td {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        th:first-child, td:first-child {
+            text-align: left;
+            font-weight: 600;
+            color: #ffffff;
         }
 
-        tr:hover {
-            background-color: rgba(255, 255, 255, 0.02);
+        tr:first-child th, tr:first-child td, tr:last-child td {
+            background: rgba(0, 243, 255, 0.15) !important;
+            color: #00f3ff !important;
+            font-weight: 700;
+            border-top: 1px solid rgba(0, 243, 255, 0.4);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.4);
+            text-shadow: 0 0 8px rgba(0, 243, 255, 0.4);
         }
 
-        .text-right {
+        tr:hover td {
+            background-color: rgba(0, 243, 255, 0.04);
+            box-shadow: inset 0 0 12px rgba(0, 243, 255, 0.1);
+            transition: background 0.15s ease;
+        }
+
+        td:not(:first-child) {
             text-align: right;
+            font-variant-numeric: tabular-nums;
         }
 
-        .total-row {
-            font-weight: bold;
-            background-color: rgba(0, 238, 255, 0.05);
-            border-top: 1px solid var(--border-color);
+        .heat-green {
+            background: rgba(16, 185, 129, 0.28) !important;
+            color: #34d399 !important;
+            font-weight: 700;
+            text-shadow: 0 0 6px rgba(52, 211, 153, 0.5);
         }
 
-        /* Clases de calor corregidas a inglés estándar (class) */
-        .verde { background-color: rgba(6, 95, 70, 0.6); }
-        .rojo { background-color: rgba(127, 29, 29, 0.6); }
-        .naranja { background-color: rgba(180, 83, 9, 0.6); }
-        .amarillo { background-color: rgba(113, 63, 18, 0.6); }
-        .oscuro { background-color: #0f172a; }
+        .heat-red {
+            background: rgba(239, 68, 68, 0.28) !important;
+            color: #f87171 !important;
+            font-weight: 700;
+            text-shadow: 0 0 6px rgba(248, 113, 113, 0.5);
+        }
+
+        .heat-yellow {
+            background: rgba(234, 179, 8, 0.22) !important;
+            color: #facc15 !important;
+            font-weight: 600;
+        }
+
+        .heat-orange {
+            background: rgba(249, 115, 22, 0.22) !important;
+            color: #fb923c !important;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>TELEVENTAS KPI</h1>
-        <div class="user-info">
-            <button class="btn-mode">Modo Claro</button>
-            <div class="user-badge">Raúl Eulogio</div>
-        </div>
-    </header>
-
-    <div class="dashboard-container">
-        <!-- TABLA 1: TABLEU AGOSTO -->
-        <div class="card">
-            <div class="card-header">
-                <span>📊 TABLEU AGOSTO</span>
-                <span class="update-time">Actualizado: 01/09/2026</span>
+    <div class="holo-stage">
+        <div class="holo-terminal">
+            <div class="terminal-header">
+                <div class="terminal-title">TABLEU AGOSTO</div>
+                <div class="status-indicators">
+                    <div class="blink-core"></div>
+                    Raúl Eulogio
+                </div>
             </div>
             <table>
                 <thead>
                     <tr>
                         <th>AGENTE</th>
-                        <th class="text-right">EN PROGRESO</th>
-                        <th class="text-right">CANCELADAS</th>
-                        <th class="text-right">CERRADAS</th>
-                        <th class="text-right">ERROR</th>
-                        <th class="text-right">TOTAL</th>
-                        <th class="text-right">% TABLEU</th>
+                        <th>EN PROGRESO</th>
+                        <th>CANCELADAS</th>
+                        <th>CERRADAS</th>
+                        <th>ERROR</th>
+                        <th>Total general</th>
+                        <th>% TABLEU</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>JEAN ELIAS</strong></td>
-                        <td class="text-right">24</td>
-                        <td class="text-right">374</td>
-                        <td class="text-right">1276</td>
-                        <td class="text-right">2</td>
-                        <td class="text-right">1676</td>
-                        <td class="text-right">76,13%</td>
+                        <td>JEAN ELIAS</td>
+                        <td>24</td>
+                        <td>374</td>
+                        <td>1276</td>
+                        <td>2</td>
+                        <td>1676</td>
+                        <td class="heat-yellow">76,13%</td>
                     </tr>
                     <tr>
                         <td>AGRAMONTE MEDRANO KRISTEL</td>
-                        <td class="text-right verde">2</td>
-                        <td class="text-right rojo">13</td>
-                        <td class="text-right verde">82</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">97</td>
-                        <td class="text-right">84,54%</td>
+                        <td class="heat-green">2</td>
+                        <td>13</td>
+                        <td class="heat-green">82</td>
+                        <td></td>
+                        <td>97</td>
+                        <td class="heat-green">84,54%</td>
                     </tr>
                     <tr>
                         <td>BECERRA SUAREZ ANGHIE YAMILE</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right rojo">12</td>
-                        <td class="text-right rojo">20</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">32</td>
-                        <td class="text-right">62,50%</td>
+                        <td></td>
+                        <td class="heat-orange">12</td>
+                        <td class="heat-red">20</td>
+                        <td></td>
+                        <td>32</td>
+                        <td class="heat-red">62,50%</td>
                     </tr>
                     <tr>
                         <td>BURGOS MAMANI RICHARD</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right rojo">12</td>
-                        <td class="text-right rojo">29</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">41</td>
-                        <td class="text-right">70,75%</td>
+                        <td></td>
+                        <td class="heat-orange">12</td>
+                        <td class="heat-orange">29</td>
+                        <td></td>
+                        <td>41</td>
+                        <td class="heat-orange">70,73%</td>
                     </tr>
                     <tr>
                         <td>CAVERO ARRUNATEGUI CHRISTOPHER RAI</td>
-                        <td class="text-right verde">4</td>
-                        <td class="text-right rojo">19</td>
-                        <td class="text-right rojo">40</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">63</td>
-                        <td class="text-right">63,49%</td>
+                        <td>4</td>
+                        <td class="heat-yellow">19</td>
+                        <td class="heat-orange">40</td>
+                        <td></td>
+                        <td>63</td>
+                        <td class="heat-red">63,49%</td>
                     </tr>
                     <tr>
                         <td>CCOÑAS DIAZ OSCAR RAFAEL</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right rojo">10</td>
-                        <td class="text-right rojo">36</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">46</td>
-                        <td class="text-right">78,26%</td>
+                        <td></td>
+                        <td class="heat-yellow">10</td>
+                        <td class="heat-orange">36</td>
+                        <td></td>
+                        <td>46</td>
+                        <td class="heat-yellow">78,26%</td>
                     </tr>
                     <tr>
                         <td>CURO SALAZAR ELVA EDITH</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right rojo">9</td>
-                        <td class="text-right rojo">31</td>
-                        <td class="text-right rojo">1</td>
-                        <td class="text-right">41</td>
-                        <td class="text-right">75,61%</td>
+                        <td></td>
+                        <td class="heat-yellow">9</td>
+                        <td class="heat-orange">31</td>
+                        <td>1</td>
+                        <td>41</td>
+                        <td class="heat-yellow">75,61%</td>
                     </tr>
-                    <tr style="background-color: rgba(0, 238, 255, 0.08);">
-                        <td><strong>EULOGIO TERRANOVA RAÚL HUGO</strong></td>
-                        <td class="text-right verde">3</td>
-                        <td class="text-right rojo">42</td>
-                        <td class="text-right verde">207</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">252</td>
-                        <td class="text-right verde">82,14%</td>
+                    <tr>
+                        <td>EULOGIO TERRANOVA RAÚL HUGO</td>
+                        <td>3</td>
+                        <td class="heat-red">42</td>
+                        <td class="heat-green">207</td>
+                        <td></td>
+                        <td>252</td>
+                        <td class="heat-green">82,14%</td>
                     </tr>
                     <tr>
                         <td>FARIAS RAVELLO SCARLET TAMARA SASHA</td>
-                        <td class="text-right verde">1</td>
-                        <td class="text-right naranja">14</td>
-                        <td class="text-right rojo">21</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">36</td>
-                        <td class="text-right rojo">58,33%</td>
+                        <td>1</td>
+                        <td class="heat-orange">14</td>
+                        <td class="heat-red">21</td>
+                        <td></td>
+                        <td>36</td>
+                        <td class="heat-red">58,33%</td>
                     </tr>
                     <tr>
                         <td>FLORES ROSAS YESENIA YESMITH</td>
-                        <td class="text-right verde">1</td>
-                        <td class="text-right amarillo">24</td>
-                        <td class="text-right naranja">41</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">66</td>
-                        <td class="text-right rojo">62,12%</td>
+                        <td>1</td>
+                        <td class="heat-yellow">24</td>
+                        <td class="heat-orange">41</td>
+                        <td></td>
+                        <td>66</td>
+                        <td class="heat-red">62,12%</td>
                     </tr>
                     <tr>
                         <td>LABAN MORALES FANY</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right amarillo">21</td>
-                        <td class="text-right naranja">43</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">64</td>
-                        <td class="text-right naranja">67,19%</td>
+                        <td></td>
+                        <td class="heat-yellow">21</td>
+                        <td class="heat-orange">43</td>
+                        <td></td>
+                        <td>64</td>
+                        <td class="heat-orange">67,19%</td>
                     </tr>
                     <tr>
                         <td>MALDONADO CASTILLO LUSMILA</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right amarillo">21</td>
-                        <td class="text-right verde">99</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">120</td>
-                        <td class="text-right verde">82,50%</td>
+                        <td></td>
+                        <td class="heat-yellow">21</td>
+                        <td class="heat-green">99</td>
+                        <td></td>
+                        <td>120</td>
+                        <td class="heat-green">82,50%</td>
                     </tr>
                     <tr>
                         <td>MATTOS JAUREGUI VALERIA MILAGROS</td>
-                        <td class="text-right verde">4</td>
-                        <td class="text-right amarillo">17</td>
-                        <td class="text-right amarillo">53</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">74</td>
-                        <td class="text-right amarillo">71,62%</td>
+                        <td>4</td>
+                        <td class="heat-yellow">17</td>
+                        <td class="heat-yellow">53</td>
+                        <td></td>
+                        <td>74</td>
+                        <td class="heat-yellow">71,62%</td>
                     </tr>
                     <tr>
                         <td>MENDIGUETE NAVARRO GIANELLA MASSIEI</td>
-                        <td class="text-right verde">1</td>
-                        <td class="text-right rojo">65</td>
-                        <td class="text-right verde">204</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">270</td>
-                        <td class="text-right amarillo">75,56%</td>
+                        <td>1</td>
+                        <td class="heat-red">65</td>
+                        <td class="heat-green">204</td>
+                        <td></td>
+                        <td>270</td>
+                        <td class="heat-yellow">75,56%</td>
                     </tr>
                     <tr>
                         <td>MORENO LAYME DULCE ALEJANDRA</td>
-                        <td class="text-right verde">1</td>
-                        <td class="text-right amarillo">21</td>
-                        <td class="text-right verde">74</td>
-                        <td class="text-right rojo">1</td>
-                        <td class="text-right">97</td>
-                        <td class="text-right amarillo">76,29%</td>
+                        <td>1</td>
+                        <td class="heat-yellow">21</td>
+                        <td class="heat-green">74</td>
+                        <td>1</td>
+                        <td>97</td>
+                        <td class="heat-yellow">76,29%</td>
                     </tr>
                     <tr>
                         <td>MOROCHO VIDAL JUAN WALTER MIGUEL</td>
-                        <td class="text-right verde">2</td>
-                        <td class="text-right amarillo">10</td>
-                        <td class="text-right verde">74</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">86</td>
-                        <td class="text-right verde">86,05%</td>
+                        <td>2</td>
+                        <td class="heat-yellow">10</td>
+                        <td class="heat-green">74</td>
+                        <td></td>
+                        <td>86</td>
+                        <td class="heat-green">86,05%</td>
                     </tr>
                     <tr>
                         <td>PÉREZ RIVERA SOL ANGEL</td>
-                        <td class="text-right verde">1</td>
-                        <td class="text-right rojo">3</td>
-                        <td class="text-right rojo">25</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">29</td>
-                        <td class="text-right verde">86,21%</td>
+                        <td>1</td>
+                        <td class="heat-red">3</td>
+                        <td class="heat-red">25</td>
+                        <td></td>
+                        <td>29</td>
+                        <td class="heat-green">86,21%</td>
                     </tr>
                     <tr>
                         <td>SANCHEZ SILVA DANY</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right amarillo">19</td>
-                        <td class="text-right amarillo">56</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">75</td>
-                        <td class="text-right amarillo">74,67%</td>
+                        <td></td>
+                        <td class="heat-yellow">19</td>
+                        <td class="heat-yellow">56</td>
+                        <td></td>
+                        <td>75</td>
+                        <td class="heat-yellow">74,67%</td>
                     </tr>
                     <tr>
                         <td>SILVA TELLO JACKELIN GREIS</td>
-                        <td class="text-right verde">3</td>
-                        <td class="text-right amarillo">16</td>
-                        <td class="text-right amarillo">57</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">76</td>
-                        <td class="text-right amarillo">75,00%</td>
+                        <td>3</td>
+                        <td class="heat-yellow">16</td>
+                        <td class="heat-yellow">57</td>
+                        <td></td>
+                        <td>76</td>
+                        <td class="heat-yellow">75,00%</td>
                     </tr>
                     <tr>
                         <td>SOTO ZAVALA JENNIFER YADIRA</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right amarillo">22</td>
-                        <td class="text-right amarillo">50</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">72</td>
-                        <td class="text-right naranja">69,44%</td>
+                        <td></td>
+                        <td class="heat-yellow">22</td>
+                        <td class="heat-yellow">50</td>
+                        <td></td>
+                        <td>72</td>
+                        <td class="heat-orange">69,44%</td>
                     </tr>
                     <tr>
                         <td>VARGAS INOÑAN ISMAEL ISAAC</td>
-                        <td class="text-right verde">1</td>
-                        <td class="text-right rojo">4</td>
-                        <td class="text-right naranja">34</td>
-                        <td class="text-right oscuro">0</td>
-                        <td class="text-right">39</td>
-                        <td class="text-right verde">87,18%</td>
+                        <td>1</td>
+                        <td class="heat-red">4</td>
+                        <td class="heat-orange">34</td>
+                        <td></td>
+                        <td>39</td>
+                        <td class="heat-green">87,18%</td>
+                    </tr>
+                    <tr>
+                        <td>Total general</td>
+                        <td>24</td>
+                        <td>374</td>
+                        <td>1276</td>
+                        <td>2</td>
+                        <td>1676</td>
+                        <td>76,13%</td>
                     </tr>
                 </tbody>
-                <tfoot>
-                    <tr class="total-row">
-                        <td>Total general</td>
-                        <td class="text-right">24</td>
-                        <td class="text-right">374</td>
-                        <td class="text-right">1276</td>
-                        <td class="text-right">2</td>
-                        <td class="text-right">1676</td>
-                        <td class="text-right">76,13%</td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
-
-        <!-- TABLA 2: ACTIVAS DE CADA ASESOR -->
-        <div class="card">
-            <div class="card-header">
-                <span>⚡ ACTIVAS DE CADA ASESOR</span>
-                <span class="update-time">Actualizado: 01/09/2026</span>
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>AGENTE</th>
-                        <th class="text-right">ACTIVAS</th>
-                        <th class="text-right">EN PROGRESO</th>
-                        <th class="text-right">CANCELADAS</th>
-                        <th class="text-right">PROYECCIÓN</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>JEAN ELIAS</strong></td>
-                        <td class="text-right">45</td>
-                        <td class="text-right">12</td>
-                        <td class="text-right">374</td>
-                        <td class="text-right">450</td>
-                    </tr>
-                    <tr>
-                        <td>AGRAMONTE MEDRANO KRISTEL</td>
-                        <td class="text-right">14</td>
-                        <td class="text-right">2</td>
-                        <td class="text-right">13</td>
-                        <td class="text-right">140</td>
-                    </tr>
-                    <tr>
-                        <td>BECERRA SUAREZ ANGHIE YAMILE</td>
-                        <td class="text-right">5</td>
-                        <td class="text-right">0</td>
-                        <td class="text-right">12</td>
-                        <td class="text-right">50</td>
-                    </tr>
-                    <tr>
-                        <td>BURGOS MAMANI RICHARD</td>
-                        <td class="text-right">8</td>
-                        <td class="text-right">0</td>
-                        <td class="text-right">12</td>
-                        <td class="text-right">80</td>
-                    </tr>
-                    <tr>
-                        <td>CAVERO ARRUNATEGUI CHRISTOPHER RAI</td>
-                        <td class="text-right">10</td>
-                        <td class="text-right">4</td>
-                        <td class="text-right">19</td>
-                        <td class="text-right">100</td>
-                    </tr>
-                    <tr>
-                        <td>CCOÑAS DIAZ OSCAR RAFAEL</td>
-                        <td class="text-right">12</td>
-                        <td class="text-right">0</td>
-                        <td class="text-right">10</td>
-                        <td class="text-right">120</td>
-                    </tr>
-                    <tr>
-                        <td>CURO SALAZAR ELVA EDITH</td>
-                        <td class="text-right">9</td>
-                        <td class="text-right">0</td>
-                        <td class="text-right">9</td>
-                        <td class="text-right">90</td>
-                    </tr>
-                    <tr style="background-color: rgba(0, 238, 255, 0.08);">
-                        <td><strong>EULOGIO TERRANOVA RAÚL HUGO</strong></td>
-                        <td class="text-right">38</td>
-                        <td class="text-right">3</td>
-                        <td class="text-right">42</td>
-                        <td class="text-right"><strong>360</strong></td>
-                    </tr>
-                    <tr>
-                        <td>FARIAS RAVELLO SCARLET TAMARA SASHA</td>
-                        <td class="text-right">6</td>
-                        <td class="text-right">1</td>
-                        <td class="text-right">14</td>
-                        <td class="text-right">60</td>
-                    </tr>
-                    <tr>
-                        <td>FLORES ROSAS YESENIA YESMITH</td>
-                        <td class="text-right">11</td>
-                        <td class="text-right">1</td>
-                        <td class="text-right">24</td>
-                        <td class="text-right">110</td>
-                    </tr>
-                    <tr>
-                        <td>LABAN MORALES FANY</td>
-                        <td class="text-right">13</td>
-                        <td class="text-right">0</td>
-                        <td class="text-right">21</td>
-                        <td class="text-right">130</td>
-                    </tr>
-                    <tr>
-                        <td>MALDONADO CASTILLO LUSMILA</td>
-                        <td class="text-right">22</td>
-                        <td class="text-right">0</td>
-                        <td class="text-right">21</td>
-                        <td class="text-right">220</td>
-                    </tr>
-                    <tr>
-                        <td>MATTOS JAUREGUI VALERIA MILAGROS</td>
-                        <td class="text-right">15</td>
-                        <td class="text-right">4</td>
-                        <td class="text-right">17</td>
-                        <td class="text-right">150</td>
-                    </tr>
-                    <tr>
-                        <td>MENDIGUETE NAVARRO GIANELLA MASSIEI</td>
-                        <td class="text-right">40</td>
-                        <td class="text-right">1</td>
-                        <td class="text-right">65</td>
-                        <td class="text-right">400</td>
-                    </tr>
-                    <tr>
-                        <td>MORENO LAYME DULCE ALEJANDRA</td>
-                        <td class="text-right">16</td>
-                        <td class="text-right">1</td>
-                        <td class="text-right">21</td>
-                        <td class="text-right">160</td>
-                    </tr>
-                    <tr>
-                        <td>MOROCHO VIDAL JUAN WALTER MIGUEL</td>
-                        <td class="text-right">18</td>
-                        <td class="text-right">2</td>
-                        <td class="text-right">10</td>
-                        <td class="text-right">180</td>
-                    </tr>
-                    <tr>
-                        <td>PÉREZ RIVERA SOL ANGEL</td>
-                        <td class="text-right">7</td>
-                        <td class="text-right">1</td>
-                        <td class="text-right">3</td>
-                        <td class="text-right">70</td>
-                    </tr>
-                    <tr>
-                        <td>SANCHEZ SILVA DANY</td>
-                        <td class="text-right">14</td>
-                        <td class="text-right">0</td>
-                        <td class="text-right">19</td>
-                        <td class="text-right">140</td>
-                    </tr>
-                    <tr>
-                        <td>SILVA TELLO JACKELIN GREIS</td>
-                        <td class="text-right">15</td>
-                        <td class="text-right">3</td>
-                        <td class="text-right">16</td>
-                        <td class="text-right">150</td>
-                    </tr>
-                    <tr>
-                        <td>SOTO ZAVALA JENNIFER YADIRA</td>
-                        <td class="text-right">13</td>
-                        <td class="text-right">0</td>
-                        <td class="text-right">22</td>
-                        <td class="text-right">130</td>
-                    </tr>
-                    <tr>
-                        <td>VARGAS INOÑAN ISMAEL ISAAC</td>
-                        <td class="text-right">9</td>
-                        <td class="text-right">1</td>
-                        <td class="text-right">4</td>
-                        <td class="text-right">90</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr class="total-row">
-                        <td>Total general</td>
-                        <td class="text-right">330</td>
-                        <td class="text-right">24</td>
-                        <td class="text-right">374</td>
-                        <td class="text-right">3300</td>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>
