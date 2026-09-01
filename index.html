@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de KPI - Televentas</title>
-    <!-- Librería PapaParse para leer CSV -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -98,7 +96,7 @@
     <div class="header-container">
         <div>
             <h2>Panel de Control - KPI</h2>
-            <div class="update-info">Última actualización de datos: <span id="horaActualizacion">Sincronizando...</span></div>
+            <div class="update-info">Última sincronización de datos: <span id="horaActualizacion">Cargando...</span></div>
         </div>
         <div>
             <button id="themeBtn" onclick="toggleTheme()">☀️ Modo Claro</button>
@@ -117,40 +115,34 @@
             </thead>
             <tbody id="cuerpoTabla">
                 <tr>
-                    <td colspan="4" style="text-align: center; color: var(--text-muted);">Cargando datos desde Google Drive...</td>
+                    <td colspan="4" style="text-align: center; color: var(--text-muted);">Conectando con la base de datos...</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <script>
-        // PEGA AQUÍ TU ENLACE CSV PUBLICADO DE GOOGLE DRIVE
-        const CSV_URL = "TU_ENLACE_CSV_DE_GOOGLE_DRIVE_AQUÍ";
+        // ENLACE DE API DE SHEET.BEST INTEGRADO
+        const API_URL = "https://api.sheetbest.com/sheets/1f57e554-8744-418a-b037-d1d744b36008";
 
-        function cargarDatosExcel() {
-            // Añadimos un parámetro de tiempo (?nocache=...) para evitar que el navegador guarde en caché el CSV viejo
-            const urlConAntiCache = CSV_URL + (CSV_URL.includes('?') ? '&' : '?') + 'nocache=' + new Date().getTime();
-
-            Papa.parse(urlConAntiCache, {
-                download: true,
-                header: true,
-                skipEmptyLines: true,
-                complete: function(results) {
-                    const datos = results.data;
+        function cargarDatosKPI() {
+            fetch(API_URL)
+                .then(response => {
+                    if (!response.ok) throw new Error("Error en la red");
+                    return response.json();
+                })
+                .then(data => {
                     const tbody = document.getElementById('cuerpoTabla');
-                    tbody.innerHTML = ""; // Limpiar tabla actual
+                    tbody.innerHTML = ""; 
 
-                    if (datos.length === 0) {
-                        tbody.innerHTML = `<tr><td colspan="4" style="text-align: center;">No se encontraron datos.</td></tr>`;
+                    if (!data || data.length === 0) {
+                        tbody.innerHTML = `<tr><td colspan="4" style="text-align: center;">No hay registros disponibles.</td></tr>`;
                         return;
                     }
 
-                    // Rellenar dinámicamente con las filas del Excel
-                    datos.forEach(fila => {
+                    // Recorrer los datos obtenidos del Excel y agregarlos a la tabla
+                    data.forEach(fila => {
                         const tr = document.createElement('tr');
-                        
-                        // NOTA: Los nombres entre comillas (ej. fila['AGENTE']) deben coincidir 
-                        // exactamente con los encabezados de la primera fila de tu Google Sheet.
                         tr.innerHTML = `
                             <td>${fila['AGENTE'] || ''}</td>
                             <td>${fila['EN PROGRESO'] || '0'}</td>
@@ -160,23 +152,21 @@
                         tbody.appendChild(tr);
                     });
 
-                    // Actualizar la etiqueta con la hora exacta en la que se descargaron los datos
+                    // Registrar la hora exacta en la que se descargaron y actualizaron los datos con éxito
                     const ahora = new Date();
                     const horaFormateada = ahora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                     document.getElementById('horaActualizacion').textContent = horaFormateada;
-                },
-                error: function(err) {
-                    console.error("Error al obtener los datos:", err);
+                })
+                .catch(err => {
+                    console.error("Error de sincronización:", err);
                     document.getElementById('horaActualizacion').textContent = "Error de sincronización";
-                }
-            });
+                });
         }
 
-        // Cargar datos al abrir la página
+        // Cargar datos al iniciar y repetir automáticamente cada 60 segundos
         window.onload = function() {
-            cargarDatosExcel();
-            // Programar actualización automática cada 60 segundos (60000 milisegundos)
-            setInterval(cargarDatosExcel, 60000);
+            cargarDatosKPI();
+            setInterval(cargarDatosKPI, 60000);
         };
 
         function toggleTheme() {
