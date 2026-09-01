@@ -183,6 +183,7 @@
             opacity: 0.75;
         }
 
+        /* PERMITE EL DESPLAZAMIENTO HORIZONTAL FLUIDO SI LA TABLA ES ANCHA */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -192,7 +193,7 @@
             border-collapse: collapse;
             width: 100%;
             text-align: left;
-            font-size: 0.78rem; /* Letra ligeramente más estilizada para que no salte de línea */
+            font-size: 0.78rem;
             table-layout: auto;
         }
 
@@ -212,7 +213,7 @@
             white-space: nowrap;
         }
 
-        /* FORZAR QUE LOS NOMBRES DE LOS ASESORES SE QUEDEN EN UNA SOLA LÍNEA */
+        /* NOMBRES EN UNA SOLA LÍNEA Y FIJOS A LA IZQUIERDA */
         th:first-child, td:first-child {
             text-align: left;
             font-weight: 600;
@@ -500,7 +501,7 @@
             </div>
         </div>
 
-        <!-- PANEL 2: GESTIONES ACTIVAS (CON NUEVAS COLUMNAS Y PROYECCIÓN A 30 DÍAS) -->
+        <!-- PANEL 2: GESTIONES ACTIVAS (CON SCROLL HORIZONTAL) -->
         <div class="holo-stage">
             <div class="holo-terminal">
                 <div class="terminal-header-panel">
