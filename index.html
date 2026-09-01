@@ -123,7 +123,6 @@
     </div>
 
     <script>
-        // PEGA AQUÍ TU URL DE API DE SHEETDB
         const API_URL = "https://sheetdb.io/api/v1/bop8vqmouwjlx";
 
         function cargarDatosKPI() {
@@ -141,22 +140,40 @@
                         return;
                     }
 
+                    // Función auxiliar para buscar claves sin importar tildes, mayúsculas o espacios
+                    function obtenerValor(fila, posiblesNombres) {
+                        const keys = Object.keys(fila);
+                        for (let nombre of posiblesNombres) {
+                            let match = keys.find(k => k.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase() === nombre.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
+                            if (match !== undefined) return fila[match];
+                        }
+                        return '0';
+                    }
+
                     data.forEach(fila => {
-                        const agente = fila['AGENTE'];
-                        if (!agente || agente.trim() === "" || agente.includes("Total general")) return;
+                        let agente = obtenerValor(fila, ['AGENTE', 'ASESOR', 'NOMBRE']);
+                        if (!agente || agente.toString().trim() === "" || agente.toString().toLowerCase().includes("total")) return;
+
+                        let activas = obtenerValor(fila, ['ACTIVAS', 'ACTIVA']);
+                        let enProgreso = obtenerValor(fila, ['EN PROGRESO', 'EN_PROGRESO', 'PROGRESO']);
+                        let canceladas = obtenerValor(fila, ['CANCELADAS', 'CANCELADA']);
+                        let proyeccion = obtenerValor(fila, ['PROYECCION', 'PROYECCIÓN']);
 
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
                             <td>${agente}</td>
-                            <td>${fila['ACTIVAS'] || '0'}</td>
-                            <td>${fila['EN PROGRESO'] || '0'}</td>
-                            <td>${fila['CANCELADAS'] || '0'}</td>
-                            <td>${fila['PROYECCIÓN'] || '0'}</td>
+                            <td>${activas}</td>
+                            <td>${enProgreso}</td>
+                            <td>${canceladas}</td>
+                            <td>${proyeccion}</td>
                         `;
                         tbody.appendChild(tr);
                     });
 
-                    // Registra la hora exacta en la que se descargaron los datos nuevos
+                    if (tbody.innerHTML === "") {
+                        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Los datos llegaron vacíos o los nombres de las columnas no coinciden.</td></tr>`;
+                    }
+
                     const ahora = new Date();
                     const horaFormateada = ahora.toLocaleTimeString('es-PE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                     document.getElementById('horaActualizacion').textContent = horaFormateada;
@@ -167,7 +184,6 @@
                 });
         }
 
-        // Carga al iniciar y se actualiza automáticamente cada 60 segundos sin necesidad de F5
         window.onload = function() {
             cargarDatosKPI();
             setInterval(cargarDatosKPI, 60000);
